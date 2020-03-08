@@ -31,9 +31,9 @@ public class selectClass extends javax.swing.JFrame {
                     + "JOIN dbo.module_table ON dbo.lesson_table.ModuleID = dbo.module_table.ModuleID "
                     + "JOIN dbo.teacher_table ON dbo.module_table.TeacherID = dbo.teacher_table.TeacherID "
                     
-                    + "where TeacherID = ?";
-            String sql2 = "SELECT TeacherFirstName FROM dbo.teacher_table WHERE TeacherID = ?";
-            PreparedStatement pst = con.prepareStatement(sql2);
+                    + "where teacher_table.TeacherID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
             //teacher t = this.teacher();
             System.out.println(Test.t.displayName());
             pst.setString(1, Test.t.displayName());
@@ -47,7 +47,8 @@ public class selectClass extends javax.swing.JFrame {
                 //String lessonDate = username.getText();
                 //teacher t = new teacher(teacherID);
                 //t.displayName();
-                System.out.println(rs.getString("TeacherFirstName"));
+                System.out.println(rs.getString("LessonLocation"));
+              
            }
            else{
                 JOptionPane.showMessageDialog(null, "Username and password not Correct");
