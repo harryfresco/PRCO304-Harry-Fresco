@@ -10,7 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-
+import test.Test;
+import static test.Test.t;
 /**
  *
  * @author harryfresco
@@ -20,8 +21,10 @@ public class login extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
     public login() {
         initComponents();
+        
     }
 
     /**
@@ -124,18 +127,20 @@ public class login extends javax.swing.JFrame {
             String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
             Connection con = DriverManager.getConnection(url);
             String sql = "Select * from dbo.teacher_table where TeacherID=? and TeacherPassword = ?";
+            //String sql2 = "SELECT TeacherFirstName FROM dbo.teacher_table WHERE TeacherID = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, username.getText());
             pst.setString(2, password.getText());
             ResultSet rs = pst.executeQuery();
            if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Username and Password Matched");
+               
+                JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
                 //Succes field= new Succes();
                 //field.setVisible(true);
                 //setVisible(false);
                 String teacherID = username.getText();
-                teacher t = new teacher(teacherID);
-                t.displayName();
+                Test.t = new teacher(teacherID);
+                System.out.println(t.displayName());
              new selectClass().setVisible(true);     
              new login().setVisible(false); 
              this.dispose();

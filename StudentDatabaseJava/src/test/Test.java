@@ -6,6 +6,7 @@
 package test;
 
 import guis.login;
+import guis.teacher;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Test {
     /**
      * @param args the command line arguments
      */
+    public static teacher t;
     public static void main(String[] args) {
         new login().setVisible(true); 
        

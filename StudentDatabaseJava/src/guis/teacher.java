@@ -15,8 +15,8 @@ public class teacher {
         teacherIDCurrent = teacherID;
     }
     
-    public void displayName(){
-        System.out.println(teacherIDCurrent);
+    public String displayName(){
+        return teacherIDCurrent;
     }
 
 

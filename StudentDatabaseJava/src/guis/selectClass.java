@@ -5,6 +5,13 @@
  */
 package guis;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import test.Test;
+import static test.Test.t;
 /**
  *
  * @author harryfresco
@@ -16,6 +23,41 @@ public class selectClass extends javax.swing.JFrame {
      */
     public selectClass() {
         initComponents();
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
+            String sql = "Select * FROM dbo.lesson_table "
+                    + "JOIN dbo.module_table ON dbo.lesson_table.ModuleID = dbo.module_table.ModuleID "
+                    + "JOIN dbo.teacher_table ON dbo.module_table.TeacherID = dbo.teacher_table.TeacherID "
+                    
+                    + "where TeacherID = ?";
+            String sql2 = "SELECT TeacherFirstName FROM dbo.teacher_table WHERE TeacherID = ?";
+            PreparedStatement pst = con.prepareStatement(sql2);
+            //teacher t = this.teacher();
+            System.out.println(Test.t.displayName());
+            pst.setString(1, Test.t.displayName());
+           
+            ResultSet rs = pst.executeQuery();
+           if(rs.next()){
+                JOptionPane.showMessageDialog(null, "Username and Password Matched");
+                //Succes field= new Succes();
+                //field.setVisible(true);
+                //setVisible(false);
+                //String lessonDate = username.getText();
+                //teacher t = new teacher(teacherID);
+                //t.displayName();
+                System.out.println(rs.getString("TeacherFirstName"));
+           }
+           else{
+                JOptionPane.showMessageDialog(null, "Username and password not Correct");
+         
+            }
+            con.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -29,7 +71,7 @@ public class selectClass extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        classList = new javax.swing.JList<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -40,13 +82,13 @@ public class selectClass extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Class"));
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
+        classList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "SOFT355 - 11:00 - 04/02/2020", "AINT257 - 09:00 - 05/02/2020", "ISAD257 - 13:00 - 05/02/2020" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jList3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(jList3);
+        classList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(classList);
 
         jLabel8.setText("Module:");
 
@@ -131,8 +173,8 @@ public class selectClass extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-new MainPage().setVisible(true);  
-this.dispose();// TODO add your handling code here:
+        new MainPage().setVisible(true);  
+        this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -171,12 +213,12 @@ this.dispose();// TODO add your handling code here:
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> classList;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
