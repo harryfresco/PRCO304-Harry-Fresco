@@ -9,8 +9,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import test.Test;
+import static test.Test.getClasses;
 import static test.Test.t;
 /**
  *
@@ -21,44 +26,11 @@ public class selectClass extends javax.swing.JFrame {
     /**
      * Creates new form selectClass
      */
-    public selectClass() {
+    public selectClass() throws SQLException {
         initComponents();
-        try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
-            Connection con = DriverManager.getConnection(url);
-            String sql = "Select * FROM dbo.lesson_table "
-                    + "JOIN dbo.module_table ON dbo.lesson_table.ModuleID = dbo.module_table.ModuleID "
-                    + "JOIN dbo.teacher_table ON dbo.module_table.TeacherID = dbo.teacher_table.TeacherID "
-                    
-                    + "where teacher_table.TeacherID = ?";
         
-            PreparedStatement pst = con.prepareStatement(sql);
-            //teacher t = this.teacher();
-            System.out.println(Test.t.displayName());
-            pst.setString(1, Test.t.displayName());
-           
-            ResultSet rs = pst.executeQuery();
-           if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Username and Password Matched");
-                //Succes field= new Succes();
-                //field.setVisible(true);
-                //setVisible(false);
-                //String lessonDate = username.getText();
-                //teacher t = new teacher(teacherID);
-                //t.displayName();
-                System.out.println(rs.getString("LessonLocation"));
-              
-           }
-           else{
-                JOptionPane.showMessageDialog(null, "Username and password not Correct");
-         
-            }
-            con.close();
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+        getClasses();
+
     }
 
     /**
@@ -78,6 +50,7 @@ public class selectClass extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,25 +122,35 @@ public class selectClass extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton1.setText("Sign Out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 152, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -177,6 +160,19 @@ public class selectClass extends javax.swing.JFrame {
         new MainPage().setVisible(true);  
         this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try { 
+           
+            new selectClass().setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             this.dispose(); 
+              new login().setVisible(true);
+              
+              t = null;
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,13 +204,18 @@ public class selectClass extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new selectClass().setVisible(true);
+                try {
+                    new selectClass().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> classList;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

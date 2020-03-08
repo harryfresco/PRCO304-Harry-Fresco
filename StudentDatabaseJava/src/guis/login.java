@@ -9,8 +9,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import test.Test;
+import static test.Test.login;
 import static test.Test.t;
 /**
  *
@@ -121,40 +125,13 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       
-        try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
-            Connection con = DriverManager.getConnection(url);
-            String sql = "Select * from dbo.teacher_table where TeacherID=? and TeacherPassword = ?";
-            //String sql2 = "SELECT TeacherFirstName FROM dbo.teacher_table WHERE TeacherID = ?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, username.getText());
-            pst.setString(2, password.getText());
-            ResultSet rs = pst.executeQuery();
-           if(rs.next()){
-               
-                JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
-                //Succes field= new Succes();
-                //field.setVisible(true);
-                //setVisible(false);
-                String teacherID = username.getText();
-                Test.t = new teacher(teacherID);
-                System.out.println(t.displayName());
-             new selectClass().setVisible(true);     
-             new login().setVisible(false); 
+       if (login(username.getText(), password.getText()) == true) {
+           new login().setVisible(false); 
              this.dispose();
-           }
-           else{
-                JOptionPane.showMessageDialog(null, "Username and password not Correct");
-                username.setText("");
-                password.setText("");
-            }
-            con.close();
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+       }
+      
+        
+             
        //new selectClass().setVisible(true);     
        //new login().setVisible(false); 
        //this.dispose();// TODO add your handling code here:
