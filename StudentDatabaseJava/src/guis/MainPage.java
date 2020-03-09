@@ -15,8 +15,14 @@ import java.util.logging.Logger;
 
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import static test.Test.t;
 import static test.Test.currentClass;
+import static test.Test.getClasses;
+import static test.Test.getStudents;
+import static test.Test.student;
 /**
  *
  * @author harryfresco
@@ -29,9 +35,23 @@ Connection con=null;
     /**
      * Creates new form MainPage
      */
-    public MainPage() {
+    List<student> list = new ArrayList<>();
+    public MainPage() throws SQLException {
         initComponents();
-
+        
+        DefaultListModel studentListModel = new DefaultListModel();
+        
+                list = getStudents();
+        
+        for (int i = 0; i<list.size(); i++){
+            studentListModel.addElement(list.get(i).StudentFirstName + " " + 
+                    list.get(i).StudentLastName);
+            //System.out.println(list.get(i).StudentFirstName);
+        }
+        
+        
+        studentList.setModel(studentListModel);
+        //displayStudents();
     }
     
 
@@ -48,7 +68,7 @@ Connection con=null;
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        studentList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -79,12 +99,12 @@ Connection con=null;
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Sign-In students"));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        studentList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Student 1", "Student 2", "Student 3", "Student 4", "Student 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(studentList);
 
         jButton1.setText("Sign In");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -314,7 +334,11 @@ Connection con=null;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainPage().setVisible(true);
+                try {
+                    new MainPage().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -331,7 +355,6 @@ Connection con=null;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -343,5 +366,6 @@ Connection con=null;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JList<String> studentList;
     // End of variables declaration//GEN-END:variables
 }

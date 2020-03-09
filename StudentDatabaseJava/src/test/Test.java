@@ -9,7 +9,10 @@ import guis.lesson;
 import guis.login;
 import guis.selectClass;
 import guis.teacher;
+import guis.student;
+import static java.lang.String.valueOf;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,8 +34,8 @@ public class Test {
      * @param args the command line arguments
      */
     public static teacher t;
-    
-        public static lesson currentClass;
+    public static lesson currentClass;
+    public static student student;
     public static void main(String[] args) {
         new login().setVisible(true); 
        
@@ -113,6 +116,52 @@ public class Test {
             JOptionPane.showMessageDialog(null, e);
         }
          return lessonList; 
+   
+
+        
+ 
+    }
+    
+    public static List<student> getStudents() throws SQLException{
+        ResultSet rs = null;
+         List<student> studentList = new ArrayList<>();
+
+          try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
+            
+            String sql = "Select * FROM dbo.student_table "
+                    + "JOIN dbo.enrolled_modules_table ON dbo.student_table.StudentID = dbo.enrolled_modules_table.StudentID "
+              
+                    
+                    + "where enrolled_modules_table.ModuleID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+           
+            System.out.println(Test.currentClass.displayModuleID());
+            
+            pst.setString(1, valueOf(Test.currentClass.displayModuleID()));
+           
+             rs = pst.executeQuery();
+            while(rs.next()){
+       
+                student s = new student(rs.getInt("StudentID"), rs.getString("StudentFirstName"),
+                        rs.getString("StudentLastName"), rs.getDate("StudentDOB"), 
+                        rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"));
+                System.out.println(s.StudentLastName);
+                
+                studentList.add(s);
+                
+           }
+            
+              
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+         return studentList; 
    
 
         

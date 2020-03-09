@@ -189,7 +189,11 @@ public class selectClass extends javax.swing.JFrame {
         
         
          System.out.println("Selected " +currentClass.LessonID);
-        new MainPage().setVisible(true);  
+        try {  
+            new MainPage().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 

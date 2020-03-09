@@ -22,8 +22,11 @@ public class lesson {
         LessonLocation = lessonLocation;
         
     }
-    
+    public int displayModuleID(){
+        return ModuleID;
+    }
     lesson(boolean next) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-}
+}   
+    
