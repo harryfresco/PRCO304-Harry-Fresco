@@ -31,7 +31,8 @@ public class Test {
      * @param args the command line arguments
      */
     public static teacher t;
-        public lesson currentClass;
+    
+        public static lesson currentClass;
     public static void main(String[] args) {
         new login().setVisible(true); 
        

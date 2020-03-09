@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 
 import java.sql.DriverManager;
 import java.sql.Statement;
-
+import static test.Test.t;
+import static test.Test.currentClass;
 /**
  *
  * @author harryfresco
@@ -70,6 +71,11 @@ Connection con=null;
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton2.setText("Sign Out");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Sign-In students"));
 
@@ -81,6 +87,11 @@ Connection con=null;
         jScrollPane1.setViewportView(jList1);
 
         jButton1.setText("Sign In");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -253,6 +264,25 @@ Connection con=null;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try { 
+           
+            new selectClass().setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
+             this.dispose(); 
+              new login().setVisible(true);
+
+              t = null;
+              currentClass = null;
+           
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import test.Test;
 import static test.Test.getClasses;
 import static test.Test.t;
+import static test.Test.currentClass;
 /**
  *
  * @author harryfresco
@@ -187,7 +188,7 @@ public class selectClass extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         
-        
+         System.out.println("Selected " +currentClass.LessonID);
         new MainPage().setVisible(true);  
         this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -201,7 +202,7 @@ public class selectClass extends javax.swing.JFrame {
         }
              this.dispose(); 
               new login().setVisible(true);
-              
+
               t = null;
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -213,7 +214,7 @@ public class selectClass extends javax.swing.JFrame {
                  moduleNameLabel.setText(list.get(i).LessonLocation);
                  timeLabel.setText(list.get(i).LessonDate);
                  
-                 lesson currentClass = new lesson(list.get(i).LessonID, list.get(i).ModuleID,
+                 currentClass = new lesson(list.get(i).LessonID, list.get(i).ModuleID,
                          list.get(i).LessonDate, list.get(i).LessonLocation);
              }
       
