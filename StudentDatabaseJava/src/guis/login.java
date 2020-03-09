@@ -5,6 +5,7 @@
  */
 package guis;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -60,6 +61,12 @@ public class login extends javax.swing.JFrame {
         username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameActionPerformed(evt);
+            }
+        });
+
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordKeyPressed(evt);
             }
         });
 
@@ -129,13 +136,17 @@ public class login extends javax.swing.JFrame {
            new login().setVisible(false); 
              this.dispose();
        }
-      
-        
-             
-       //new selectClass().setVisible(true);     
-       //new login().setVisible(false); 
-       //this.dispose();// TODO add your handling code here:
+
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (login(username.getText(), password.getText()) == true) {
+                new login().setVisible(false); 
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_passwordKeyPressed
 
     /**
      * @param args the command line arguments

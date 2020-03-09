@@ -14,8 +14,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,7 +31,7 @@ public class Test {
      * @param args the command line arguments
      */
     public static teacher t;
-    
+        public lesson currentClass;
     public static void main(String[] args) {
         new login().setVisible(true); 
        
@@ -49,7 +52,7 @@ public class Test {
                 JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
 
                 String teacherID = username;
-                Test.t = new teacher(teacherID);
+                Test.t = new teacher(teacherID, rs.getString("TeacherFirstName"));
                 System.out.println(t.displayName());
              try {     
             new selectClass().setVisible(true);
@@ -71,8 +74,10 @@ public class Test {
         return true;
     }
     
-    public static void getClasses() throws SQLException{
+    public static List<lesson> getClasses() throws SQLException{
         ResultSet rs = null;
+         List<lesson> lessonList = new ArrayList<>();
+
           try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
@@ -86,8 +91,8 @@ public class Test {
         
             PreparedStatement pst = con.prepareStatement(sql);
            
-            System.out.println(Test.t.displayName());
-            pst.setString(1, Test.t.displayName());
+            System.out.println(Test.t.displayID());
+            pst.setString(1, Test.t.displayID());
            
              rs = pst.executeQuery();
             while(rs.next()){
@@ -95,7 +100,8 @@ public class Test {
                 lesson l = new lesson(rs.getInt("LessonID"), rs.getInt("ModuleID"),
                         rs.getString("LessonDate"), rs.getString("LessonLocation"));
                 System.out.println(l.LessonLocation);
-          
+                
+                lessonList.add(l);
                 
            }
             
@@ -105,11 +111,11 @@ public class Test {
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }
-          
+         return lessonList; 
    
 
         
-        
+ 
     }
 }
     

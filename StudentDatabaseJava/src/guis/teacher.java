@@ -11,14 +11,23 @@ package guis;
  */
 public class teacher {
     private String teacherIDCurrent;
+    private String teacherNameCurrent;
     public teacher(String teacherID){
         teacherIDCurrent = teacherID;
     }
+
+    public teacher(String teacherID, String string) {
+         teacherIDCurrent = teacherID;
+         teacherNameCurrent = string;
+    }
     
-    public String displayName(){
+    public String displayID(){
         return teacherIDCurrent;
     }
 
+    public String displayName(){
+        return teacherNameCurrent;
+    }
 
     
    
