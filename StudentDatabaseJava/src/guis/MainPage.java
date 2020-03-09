@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import static test.Test.t;
 import static test.Test.currentClass;
+import static test.Test.getAttendance;
 import static test.Test.getClasses;
 import static test.Test.getStudents;
 import static test.Test.student;
@@ -52,6 +53,7 @@ Connection con=null;
         
         studentList.setModel(studentListModel);
         //displayStudents();
+        attendanceLabel.setText(Integer.toString(getAttendance()) + "%");
     }
     
 
@@ -72,7 +74,7 @@ Connection con=null;
         jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        attendanceLabel = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -142,7 +144,7 @@ Connection con=null;
 
         jLabel12.setText("Class Attendance:");
 
-        jLabel13.setText("90%");
+        attendanceLabel.setText("90%");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -152,7 +154,7 @@ Connection con=null;
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(attendanceLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -161,7 +163,7 @@ Connection con=null;
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(attendanceLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -344,11 +346,11 @@ Connection con=null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel attendanceLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

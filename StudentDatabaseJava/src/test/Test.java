@@ -53,7 +53,7 @@ public class Test {
             ResultSet rs = pst.executeQuery();
            if(rs.next()){
                
-                JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
+                //JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
 
                 String teacherID = username;
                 Test.t = new teacher(teacherID, rs.getString("TeacherFirstName"));
@@ -167,6 +167,21 @@ public class Test {
         
  
     }
+    
+    public static int getAttendance() throws SQLException{
+       
+        List<student> list = new ArrayList<>();
+        list = getStudents();
+        int i = 0;
+        int tempAtt = 0;
+        for (i=0; i<list.size(); i++){
+            tempAtt += list.get(i).StudentAttendance;
+        }
+        tempAtt = tempAtt / i;
+        return tempAtt;
+    }
+            
+            
 }
     
     
