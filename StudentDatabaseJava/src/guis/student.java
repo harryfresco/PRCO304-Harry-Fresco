@@ -18,15 +18,17 @@ public class student {
     public Date StudentDOB;
     public int StudentAttendance;
     public int StudentNumOfClasses;
+    public int ModuleID;
     
     public student(int studentID, String studentFirstName, String studentLastName,
-            Date studentDOB, int studentAttendance, int studentNumOfClasses){
+            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID){
         StudentID = studentID;
         StudentFirstName = studentFirstName;
         StudentLastName = studentLastName;
         StudentDOB = studentDOB;
         StudentAttendance = studentAttendance;
         StudentNumOfClasses = studentNumOfClasses;
+        ModuleID = moduleID;
     }
     
     public String displayStudents(){

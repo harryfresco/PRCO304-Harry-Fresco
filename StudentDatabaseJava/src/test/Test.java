@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import static javax.swing.UIManager.getInt;
 
 /**
  *
@@ -148,7 +149,8 @@ public class Test {
        
                 student s = new student(rs.getInt("StudentID"), rs.getString("StudentFirstName"),
                         rs.getString("StudentLastName"), rs.getDate("StudentDOB"), 
-                        rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"));
+                        rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"),
+                        rs.getInt("ModuleID"));
                 System.out.println(s.StudentLastName);
                 
                 studentList.add(s);
@@ -181,7 +183,26 @@ public class Test {
         return tempAtt;
     }
             
+    public static void updateAttendance(int arrayID[]) throws SQLException, ClassNotFoundException {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
             
+            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1"
+         
+                    
+                    + "where studentID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            for (int i = 0; i<arrayID.length; i++){
+                pst.setString(1, String.valueOf(arrayID[i]));
+           
+                ResultSet rs = pst.executeQuery();
+            }
+            System.out.println("Done");
+            
+    }       
 }
     
     
