@@ -58,7 +58,7 @@ public class Test {
 
                 String teacherID = username;
                 Test.t = new teacher(teacherID, rs.getString("TeacherFirstName"));
-                System.out.println(t.displayName());
+         
              try {     
             new selectClass().setVisible(true);
         } catch (SQLException ex) {
@@ -104,7 +104,7 @@ public class Test {
                
                 lesson l = new lesson(rs.getInt("LessonID"), rs.getInt("ModuleID"),
                         rs.getString("LessonDate"), rs.getString("LessonLocation"));
-                System.out.println(l.LessonLocation);
+
                 
                 lessonList.add(l);
                 
@@ -150,8 +150,8 @@ public class Test {
                 student s = new student(rs.getInt("StudentID"), rs.getString("StudentFirstName"),
                         rs.getString("StudentLastName"), rs.getDate("StudentDOB"), 
                         rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"),
-                        rs.getInt("ModuleID"));
-                System.out.println(s.StudentLastName);
+                        rs.getInt("ModuleID"), rs.getInt("classes_present"));
+             
                 
                 studentList.add(s);
                 
@@ -182,27 +182,139 @@ public class Test {
         tempAtt = tempAtt / i;
         return tempAtt;
     }
-            
+         
+    
     public static void updateAttendance(int arrayID[]) throws SQLException, ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
             Connection con = DriverManager.getConnection(url);
             
-            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1"
+            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1 "
          
-                    
-                    + "where studentID = ?";
+                    + ", classes_present = classes_present + 1 "
+                    + "where dbo.student_table.studentID = ?";
         
             PreparedStatement pst = con.prepareStatement(sql);
 
             for (int i = 0; i<arrayID.length; i++){
                 pst.setString(1, String.valueOf(arrayID[i]));
            
-                ResultSet rs = pst.executeQuery();
+                pst.executeUpdate();
             }
-            System.out.println("Done");
+         
+             List<student> list = new ArrayList<>();
+          
+          list = getStudents();
+    
+          float attended;
+          float present;
+          float attendance;
+          for (int i = 0; i <list.size(); i++){
+              present = (float)list.get(i).Classes_present;
+              
+              attended = (float)list.get(i).StudentNumOfClasses;
+  
+              attendance = (present / attended) * 100;
+              list.get(i).StudentAttendance = (int)attendance;
+              
+              
+          }
+           sql = "UPDATE dbo.student_table SET StudentAttendance = ? "
+                    + "where dbo.student_table.studentID = ?";
+        
+            pst = con.prepareStatement(sql);
             
-    }       
+            for (int i = 0; i<list.size(); i++){
+                pst.setInt(1, list.get(i).StudentAttendance);
+                pst.setInt(2, list.get(i).StudentID);
+                
+                pst.executeUpdate();
+            }
+           
+    }   
+
+      public static void updateAttendanceAbsent(int arrayID[]) throws SQLException, ClassNotFoundException {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
+            
+            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1 "
+                    + "where dbo.student_table.studentID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            for (int i = 0; i<arrayID.length; i++){
+                pst.setString(1, String.valueOf(arrayID[i]));
+           
+                pst.executeUpdate();
+            }
+      
+            //calculateAttendance();
+            
+              List<student> list = new ArrayList<>();
+          
+          list = getStudents();
+    
+          float attended;
+          float present;
+          float attendance;
+          for (int i = 0; i <list.size(); i++){
+              present = (float)list.get(i).Classes_present;
+              
+              attended = (float)list.get(i).StudentNumOfClasses;
+  
+              attendance = (present / attended) * 100;
+              list.get(i).StudentAttendance = (int)attendance;
+              
+              
+          }
+           sql = "UPDATE dbo.student_table SET StudentAttendance = ? "
+                    + "where dbo.student_table.studentID = ?";
+        
+            pst = con.prepareStatement(sql);
+            
+            for (int i = 0; i<list.size(); i++){
+                pst.setInt(1, list.get(i).StudentAttendance);
+                pst.setInt(2, list.get(i).StudentID);
+                
+                pst.executeUpdate();
+            }
+     
+    }     
+      
+      public static void calculateAttendance() throws ClassNotFoundException, SQLException{
+          
+          List<student> list = new ArrayList<>();
+          
+          list = getStudents();
+    
+          int attended;
+          int present;
+          
+          for (int i = 0; i <list.size(); i++){
+              present = list.get(i).Classes_present;
+              attended = list.get(i).StudentNumOfClasses;
+              list.get(i).StudentAttendance = (attended / present) * 100;
+              System.out.println(list.get(i).StudentAttendance);
+              
+          }
+          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
+            
+            String sql = "UPDATE dbo.student_table SET StudentAttendance = ? "
+                    + "where dbo.student_table.studentID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            for (int i = 0; i<list.size(); i++){
+                pst.setInt(1, list.get(i).StudentAttendance);
+                pst.setInt(2, list.get(i).StudentID);
+                
+                pst.executeUpdate();
+            }
+        
+      }
 }
     
     

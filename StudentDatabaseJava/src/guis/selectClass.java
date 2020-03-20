@@ -202,7 +202,7 @@ public class selectClass extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        System.out.println("Selected " +currentClass.LessonID);
+       
         try {
             new MainPage().setVisible(true);
         } catch (SQLException ex) {

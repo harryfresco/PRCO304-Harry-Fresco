@@ -19,9 +19,10 @@ public class student {
     public int StudentAttendance;
     public int StudentNumOfClasses;
     public int ModuleID;
+    public int Classes_present;
     
     public student(int studentID, String studentFirstName, String studentLastName,
-            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID){
+            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID, int classes_present){
         StudentID = studentID;
         StudentFirstName = studentFirstName;
         StudentLastName = studentLastName;
@@ -29,6 +30,7 @@ public class student {
         StudentAttendance = studentAttendance;
         StudentNumOfClasses = studentNumOfClasses;
         ModuleID = moduleID;
+        Classes_present = classes_present;
     }
     
     public String displayStudents(){

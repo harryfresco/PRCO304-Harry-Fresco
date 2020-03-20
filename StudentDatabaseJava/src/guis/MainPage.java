@@ -5,6 +5,7 @@
  */
 package guis;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +26,8 @@ import static test.Test.getClasses;
 import static test.Test.getStudents;
 import static test.Test.student;
 import static test.Test.updateAttendance;
+import static test.Test.calculateAttendance;
+import static test.Test.updateAttendanceAbsent;
 /**
  *
  * @author harryfresco
@@ -38,12 +41,13 @@ Connection con=null;
      * Creates new form MainPage
      */
     List<student> list = new ArrayList<>();
+    List<String> enrolledList = new ArrayList<>();
+    DefaultListModel studentListModel = new DefaultListModel();
     public MainPage() throws SQLException {
         initComponents();
         
-        DefaultListModel studentListModel = new DefaultListModel();
         
-                list = getStudents();
+        list = getStudents();
         
         for (int i = 0; i<list.size(); i++){
             studentListModel.addElement(list.get(i).StudentFirstName + " " + 
@@ -55,6 +59,7 @@ Connection con=null;
         studentList.setModel(studentListModel);
         //displayStudents();
         attendanceLabel.setText(Integer.toString(getAttendance()) + "%");
+     
     }
     
 
@@ -73,18 +78,14 @@ Connection con=null;
         jScrollPane1 = new javax.swing.JScrollPane();
         studentList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         attendanceLabel = new javax.swing.JLabel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         attendanceIndvLabel = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -117,27 +118,47 @@ Connection con=null;
             }
         });
 
+        jButton4.setText("Absent");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Complete");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(176, 176, 176)
-                        .addComponent(jButton1))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5)))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addGap(20, 20, 20))
         );
 
         jTabbedPane1.addTab("Register", jPanel3);
@@ -171,34 +192,11 @@ Connection con=null;
 
         jTabbedPane1.addTab("Analytics", jPanel4);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane4.setViewportView(jTable1);
-
-        jTabbedPane2.addTab("tab1", jScrollPane4);
-
-        jTabbedPane1.addTab("All Students", jTabbedPane2);
-
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Student"));
 
         jLabel1.setText("Attendance:");
 
         attendanceIndvLabel.setText("0%");
-
-        jLabel3.setText("Enrolled Modules: ");
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "SOFT355", "ISAD257", "AINT257" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
 
         jTextField1.setText("Search by name");
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -242,13 +240,9 @@ Connection con=null;
                         .addComponent(jButton3)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(attendanceIndvLabel))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1)
+                .addGap(24, 24, 24)
+                .addComponent(attendanceIndvLabel)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -266,16 +260,12 @@ Connection con=null;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstLabel)
                     .addComponent(lastLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(attendanceIndvLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 72, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Search Student", jPanel1);
@@ -321,52 +311,87 @@ Connection con=null;
            
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        List<String> list2 = new ArrayList<>();
-        
-        list2 = studentList.getSelectedValuesList();
-        int arrayID[] = null;
-        
-        
-        for(int i = 0; i<list2.size(); i++){
-            
-            for(int j= 0; j<list.size(); j++){
-                
-                if(list2.get(i) == list.get(j).StudentFirstName + " " + list.get(j).StudentLastName){
-                    arrayID[i] = list.get(i).StudentID;
-                }
-            }
-            try {
-                updateAttendance(arrayID);
-            } catch (SQLException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-     
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
-       
-    }//GEN-LAST:event_jTextField1KeyTyped
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       String nameEntered = jTextField1.getText();
+        String nameEntered = jTextField1.getText();
         String[] splited;
-           splited = nameEntered.split("\\s+");
+        splited = nameEntered.split("\\s+");
         for (int i = 0; i<list.size(); i++){
+
+            if((list.get(i).StudentFirstName == null ? splited[0] == null : list.get(i).StudentFirstName.equals(splited[0])) && (list.get(i).StudentLastName == null ? splited[1] == null : list.get(i).StudentLastName.equals(splited[1]))){
+                firstLabel.setText(list.get(i).StudentFirstName);
+                lastLabel.setText(list.get(i).StudentLastName);
+                attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance));
            
-           if((list.get(i).StudentFirstName == null ? splited[0] == null : list.get(i).StudentFirstName.equals(splited[0])) && (list.get(i).StudentLastName == null ? splited[1] == null : list.get(i).StudentLastName.equals(splited[1]))){
-               firstLabel.setText(list.get(i).StudentFirstName);
-               lastLabel.setText(list.get(i).StudentLastName);
-               attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance));
-               System.out.println(list.get(i).ModuleID);
-           }
-           
-            
+            }
+
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        List<String> list2 = new ArrayList<>();
+
+        list2 = studentList.getSelectedValuesList();
+       
+        int[] arrayID = new int[30];
+
+        for(int i = 0; i<list2.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list2.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){
+                    studentListModel.remove(i);
+                    arrayID[i] = list.get(j).StudentID;
+                }
+            }
+
+        }
+        //System.out.println(arrayID[0]);
+        try {
+
+            updateAttendance(arrayID);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+       
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+        List<String> list3 = new ArrayList<>();
+
+        list3 = studentList.getSelectedValuesList();
+       
+        int[] arrayID2 = new int[30];
+
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){
+                    studentListModel.remove(i);
+                    arrayID2[i] = list.get(j).StudentID;
+                }
+            }
+
+        }
+        //System.out.println(arrayID[0]);
+        try {
+
+            updateAttendanceAbsent(arrayID2);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+         
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -414,21 +439,17 @@ Connection con=null;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lastLabel;
     private javax.swing.JList<String> studentList;
