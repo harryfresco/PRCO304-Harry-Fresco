@@ -315,6 +315,30 @@ public class Test {
             }
         
       }
+      
+      public static void addStudent(student newStudent) throws ClassNotFoundException, SQLException{
+          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = null;
+        try {
+            con = DriverManager.getConnection(url);
+        } catch (SQLException ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1 "
+         
+                    + ", classes_present = classes_present + 1 "
+                    + "where dbo.student_table.studentID = ?";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+
+           
+                pst.setString(1, variable);
+           
+                pst.executeUpdate();
+           
+      }
 }
     
     
