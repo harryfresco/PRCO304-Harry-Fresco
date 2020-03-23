@@ -10,7 +10,7 @@ import guis.login;
 import Classes.module;
 import guis.selectClass;
 import Classes.teacher;
-import Classes.student;
+import Classes.*;
 import static java.lang.String.valueOf;
 import java.sql.Connection;
 import java.sql.Date;
@@ -350,6 +350,7 @@ public class studentAttendanceSystem {
       
           
       }
+      
       public static boolean addStudent(student newStudent) throws ClassNotFoundException, SQLException{
           Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
@@ -395,6 +396,31 @@ public class studentAttendanceSystem {
         pst.setInt(2, newStudent.ModuleID);
         pst.executeUpdate();
         return true;
+      }
+      
+      public static boolean addNewClass(newclass newClass) throws ClassNotFoundException, SQLException{
+          
+          Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = null;
+        try {
+            con = DriverManager.getConnection(url);
+        } catch (SQLException ex) {
+            Logger.getLogger(studentAttendanceSystem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+            String sql = "INSERT INTO dbo.lesson_table (ModuleID, LessonDate, LessonLocation) "
+                    + "VALUES (?, ?, ?)";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+
+                pst.setInt(1, newClass.ModuleID);
+                pst.setString(2, newClass.Date);    
+                pst.setString(3, newClass.Location);      
+                
+                pst.executeUpdate();
+        return true;
+          
       }
 }
     
