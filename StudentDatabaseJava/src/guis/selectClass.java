@@ -39,7 +39,7 @@ public class selectClass extends javax.swing.JFrame {
                 list = getClasses();
         
         for (int i = 0; i<list.size(); i++){
-            classListModel.addElement(list.get(i).LessonLocation);
+            classListModel.addElement(list.get(i).LessonDate);
         }
         
         
@@ -70,7 +70,6 @@ public class selectClass extends javax.swing.JFrame {
         welcomeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -96,7 +95,7 @@ public class selectClass extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(classList);
 
-        jLabel8.setText("Module:");
+        jLabel8.setText("Location:");
 
         jLabel9.setText("Time:");
 
@@ -117,8 +116,8 @@ public class selectClass extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(moduleNameLabel))
@@ -127,7 +126,7 @@ public class selectClass extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(timeLabel)
                     .addComponent(jButton3))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,14 +159,13 @@ public class selectClass extends javax.swing.JFrame {
                 .addComponent(welcomeLabel)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(230, 230, 230)
-                        .addComponent(jButton1)))
+                .addGap(230, 230, 230)
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +185,7 @@ public class selectClass extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -216,11 +214,12 @@ public class selectClass extends javax.swing.JFrame {
     private void classListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classListMouseClicked
 
         String tmp = (String)classList.getSelectedValue();
+        
         for (int i = 0; i<list.size(); i++){
-            if (tmp == list.get(i).LessonLocation){
+            if (tmp == list.get(i).LessonDate){
                 moduleNameLabel.setText(list.get(i).LessonLocation);
                 timeLabel.setText(list.get(i).LessonDate);
-
+          
                 currentClass = new lesson(list.get(i).LessonID, list.get(i).ModuleID,
                     list.get(i).LessonDate, list.get(i).LessonLocation);
             }

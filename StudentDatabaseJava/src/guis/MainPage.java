@@ -88,7 +88,6 @@ Connection con=null;
         studentList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         attendanceLabel = new javax.swing.JLabel();
@@ -146,29 +145,19 @@ Connection con=null;
             }
         });
 
-        jButton5.setText("Complete");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(7, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,8 +166,7 @@ Connection con=null;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton4))
                 .addGap(20, 20, 20))
         );
 
@@ -422,7 +410,7 @@ Connection con=null;
             if((list.get(i).StudentFirstName == null ? splited[0] == null : list.get(i).StudentFirstName.equals(splited[0])) && (list.get(i).StudentLastName == null ? splited[1] == null : list.get(i).StudentLastName.equals(splited[1]))){
                 firstLabel.setText(list.get(i).StudentFirstName);
                 lastLabel.setText(list.get(i).StudentLastName);
-                attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance));
+                attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance) + "%");
            
             }
 
@@ -437,16 +425,22 @@ Connection con=null;
         List<String> list2 = new ArrayList<>();
 
         list2 = studentList.getSelectedValuesList();
-       
+        int selectedIndex = studentList.getSelectedIndex();
         int[] arrayID = new int[30];
 
         for(int i = 0; i<list2.size(); i++){
 
             for(int j= 0; j<list.size(); j++){
 
-                if(list2.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){
-                    studentListModel.remove(i);
+                if(list2.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
                     arrayID[i] = list.get(j).StudentID;
+                    
+                    if (selectedIndex != -1) {
+                        studentListModel.remove(selectedIndex);
+                        if (studentListModel.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Register Complete");
+                        }
+                    }
                 }
             }
 
@@ -465,7 +459,7 @@ Connection con=null;
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
         List<String> list3 = new ArrayList<>();
-
+        int selectedIndex = studentList.getSelectedIndex();
         list3 = studentList.getSelectedValuesList();
        
         int[] arrayID2 = new int[30];
@@ -474,9 +468,15 @@ Connection con=null;
 
             for(int j= 0; j<list.size(); j++){
 
-                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){
-                    studentListModel.remove(i);
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
                     arrayID2[i] = list.get(j).StudentID;
+                    
+                    if (selectedIndex != -1) {
+                        studentListModel.remove(selectedIndex);
+                        if (studentListModel.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Register Complete");
+                        }
+                    }
                 }
             }
 
@@ -490,10 +490,6 @@ Connection con=null;
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
         // TODO add your handling code here:
@@ -581,7 +577,6 @@ Connection con=null;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
