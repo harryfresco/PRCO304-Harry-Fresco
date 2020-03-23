@@ -14,9 +14,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import test.Test;
-import static test.Test.login;
-import static test.Test.t;
+import JarFiles.studentAttendanceSystem;
+import static JarFiles.studentAttendanceSystem.login;
+import static JarFiles.studentAttendanceSystem.t;
 /**
  *
  * @author harryfresco

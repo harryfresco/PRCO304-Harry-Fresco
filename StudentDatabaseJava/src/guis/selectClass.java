@@ -5,6 +5,7 @@
  */
 package guis;
 
+import Classes.lesson;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,10 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import test.Test;
-import static test.Test.getClasses;
-import static test.Test.t;
-import static test.Test.currentClass;
+import JarFiles.studentAttendanceSystem;
+import static JarFiles.studentAttendanceSystem.getClasses;
+import static JarFiles.studentAttendanceSystem.t;
+import static JarFiles.studentAttendanceSystem.currentClass;
 /**
  *
  * @author harryfresco

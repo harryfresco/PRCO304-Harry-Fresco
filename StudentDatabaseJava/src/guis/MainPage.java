@@ -5,8 +5,11 @@
  */
 package guis;
 
+import Classes.module;
+import Classes.student;
 import java.sql.Array;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,15 +22,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import static test.Test.t;
-import static test.Test.currentClass;
-import static test.Test.getAttendance;
-import static test.Test.getClasses;
-import static test.Test.getStudents;
-import static test.Test.student;
-import static test.Test.updateAttendance;
-import static test.Test.calculateAttendance;
-import static test.Test.updateAttendanceAbsent;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import static JarFiles.studentAttendanceSystem.*;
 /**
  *
  * @author harryfresco
@@ -42,24 +39,36 @@ Connection con=null;
      */
     List<student> list = new ArrayList<>();
     List<String> enrolledList = new ArrayList<>();
+    List<module> moduleList = new ArrayList<>();
     DefaultListModel studentListModel = new DefaultListModel();
+    JComboBox moduleListModel = new JComboBox();
+    
     public MainPage() throws SQLException {
         initComponents();
         
         
         list = getStudents();
         
+        
+        moduleList = getModules();
+
+
         for (int i = 0; i<list.size(); i++){
             studentListModel.addElement(list.get(i).StudentFirstName + " " + 
                     list.get(i).StudentLastName);
-            //System.out.println(list.get(i).StudentFirstName);
+      
         }
         
+        for (int i = 0; i<moduleList.size(); i++){
+            moduleBox.addItem(moduleList.get(i).ModuleTitle);
+
+            
+        }
         
         studentList.setModel(studentListModel);
-        //displayStudents();
+   
         attendanceLabel.setText(Integer.toString(getAttendance()) + "%");
-     
+        
     }
     
 
@@ -298,8 +307,6 @@ Connection con=null;
 
         jLabel7.setText("Password:");
 
-        moduleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel8.setText("Modules enrolled:");
 
         jButton6.setText("Add Student");
@@ -494,13 +501,35 @@ Connection con=null;
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         
+    try {
         String firstNameVar = firstName.getText();
         String lastNameVar = lastName.getText();
-        String dateVar = date.getText();
+        Date dateVar = Date.valueOf(date.getText());
         String passwordVar = password.getText();
-        int moduleVar = moduleBox.getSelectedIndex();
+        String moduleVar = (String) moduleBox.getSelectedItem();
         
         
+        
+        int selectedModuleID = 0;
+        
+        for (int i = 0; i<moduleList.size(); i++){
+            if(moduleVar == moduleList.get(i).ModuleTitle){
+                selectedModuleID = moduleList.get(i).ModuleID;
+            }
+        }
+        
+        student newStudent = new student(firstNameVar, lastNameVar, dateVar, passwordVar, selectedModuleID);
+        
+
+        if(addStudent(newStudent) == true){
+            JOptionPane.showMessageDialog(null, "Student Added successfully");
+        }
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**

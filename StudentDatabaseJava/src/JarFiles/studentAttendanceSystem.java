@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test;
+package JarFiles;
 
-import guis.lesson;
+import Classes.lesson;
 import guis.login;
+import Classes.module;
 import guis.selectClass;
-import guis.teacher;
-import guis.student;
+import Classes.teacher;
+import Classes.student;
 import static java.lang.String.valueOf;
 import java.sql.Connection;
 import java.sql.Date;
@@ -29,7 +30,7 @@ import static javax.swing.UIManager.getInt;
  *
  * @author harryfresco
  */
-public class Test {
+public class studentAttendanceSystem {
 
     /**
      * @param args the command line arguments
@@ -57,7 +58,7 @@ public class Test {
                 //JOptionPane.showMessageDialog(null, "Hello, "+ rs.getString("TeacherFirstName"));
 
                 String teacherID = username;
-                Test.t = new teacher(teacherID, rs.getString("TeacherFirstName"));
+                studentAttendanceSystem.t = new teacher(teacherID, rs.getString("TeacherFirstName"));
          
              try {     
             new selectClass().setVisible(true);
@@ -96,8 +97,8 @@ public class Test {
         
             PreparedStatement pst = con.prepareStatement(sql);
            
-            System.out.println(Test.t.displayID());
-            pst.setString(1, Test.t.displayID());
+            System.out.println(studentAttendanceSystem.t.displayID());
+            pst.setString(1, studentAttendanceSystem.t.displayID());
            
              rs = pst.executeQuery();
             while(rs.next()){
@@ -140,9 +141,9 @@ public class Test {
         
             PreparedStatement pst = con.prepareStatement(sql);
            
-            System.out.println(Test.currentClass.displayModuleID());
+            System.out.println(studentAttendanceSystem.currentClass.displayModuleID());
             
-            pst.setString(1, valueOf(Test.currentClass.displayModuleID()));
+            pst.setString(1, valueOf(studentAttendanceSystem.currentClass.displayModuleID()));
            
              rs = pst.executeQuery();
             while(rs.next()){
@@ -316,28 +317,84 @@ public class Test {
         
       }
       
-      public static void addStudent(student newStudent) throws ClassNotFoundException, SQLException{
+      public static List<module> getModules() {
+          ResultSet rs = null;
+         List<module> moduleList = new ArrayList<>();
+
+          try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
+            Connection con = DriverManager.getConnection(url);
+            
+            String sql = "Select ModuleID, ModuleTitle FROM dbo.module_table";
+        
+            PreparedStatement pst = con.prepareStatement(sql);
+
+             rs = pst.executeQuery();
+            while(rs.next()){
+       
+                module m = new module(rs.getInt("ModuleID"), rs.getString("ModuleTitle"));
+ 
+                moduleList.add(m);
+                
+           }
+            
+              
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+         return moduleList; 
+          
+      
+          
+      }
+      public static boolean addStudent(student newStudent) throws ClassNotFoundException, SQLException{
           Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url="jdbc:sqlserver://socem1.uopnet.plymouth.ac.uk;databaseName=PRCO304_HFresco;user=HFresco;password=PRCO304!";
             Connection con = null;
         try {
             con = DriverManager.getConnection(url);
         } catch (SQLException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(studentAttendanceSystem.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-            String sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1 "
-         
-                    + ", classes_present = classes_present + 1 "
-                    + "where dbo.student_table.studentID = ?";
+
+            String sql = "INSERT INTO dbo.student_table (StudentFirstName, StudentLastName, StudentDOB,"
+                    + " StudentAttendance, StudentNumOfClasses, StudentPassword, classes_present) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         
             PreparedStatement pst = con.prepareStatement(sql);
 
-           
-                pst.setString(1, variable);
-           
+                pst.setString(1, newStudent.StudentFirstName);
+                pst.setString(2, newStudent.StudentLastName);    
+                pst.setDate(3, newStudent.StudentDOB);      
+                pst.setInt(4, newStudent.StudentAttendance);
+                pst.setInt(5, newStudent.StudentNumOfClasses);  
+                pst.setString(6, newStudent.StudentPassword);
+                pst.setInt(7, newStudent.Classes_present);
                 pst.executeUpdate();
            
+                
+                sql = "SELECT StudentID FROM dbo.student_table WHERE StudentFirstName = ? "
+                        + "and StudentLastName = ? and StudentDOB = ?";
+                pst = con.prepareStatement(sql);
+                pst.setString(1, newStudent.StudentFirstName);
+                pst.setString(2, newStudent.StudentLastName);
+                pst.setDate(3, newStudent.StudentDOB);
+                ResultSet rs = pst.executeQuery();
+                int studentID = 0;
+                while(rs.next()){
+                    studentID = rs.getInt("StudentID");
+                }
+                sql = "INSERT INTO dbo.enrolled_modules_table (StudentID, ModuleID) "
+                    + "VALUES (?, ?)";
+        pst = null;
+        pst = con.prepareStatement(sql);
+        pst.setInt(1, studentID);
+        pst.setInt(2, newStudent.ModuleID);
+        pst.executeUpdate();
+        return true;
       }
 }
     
