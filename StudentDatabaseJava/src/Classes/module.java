@@ -11,9 +11,21 @@ package Classes;
  */
 public class module {
     
+    /**
+     *
+     */
     public int ModuleID;
+
+    /**
+     *
+     */
     public String ModuleTitle;
     
+    /**
+     *
+     * @param moduleID
+     * @param moduleTitle
+     */
     public module(int moduleID, String moduleTitle) {
          ModuleID = moduleID;
          ModuleTitle = moduleTitle;

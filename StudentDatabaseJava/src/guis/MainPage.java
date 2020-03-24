@@ -8,6 +8,7 @@ package guis;
 import Classes.newclass;
 import Classes.module;
 import Classes.student;
+
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
@@ -39,46 +40,230 @@ Connection con=null;
     /**
      * Creates new form MainPage
      */
+    
+    // Initialises lists and listModels
     List<student> list = new ArrayList<>();
     List<String> enrolledList = new ArrayList<>();
     List<module> moduleList = new ArrayList<>();
     DefaultListModel studentListModel = new DefaultListModel();
     JComboBox moduleListModel = new JComboBox();
     
+    /**
+     *
+     * @throws SQLException
+     */
     public MainPage() throws SQLException {
         initComponents();
         
-        
+        // Fills list with students in class using getStudents() function
         list = getStudents();
         
-        
+        // Fills list with modules using getModules() function
         moduleList = getModules();
-
-
+        
+        fillBoxesAndLabels();
+    }
+   
+/**
+* The function fillBoxesAndLabels fills the combo boxes
+*/    
+private void fillBoxesAndLabels() {
+    // Loops through list of students in class and adds full name to list
         for (int i = 0; i<list.size(); i++){
             studentListModel.addElement(list.get(i).StudentFirstName + " " + 
-                    list.get(i).StudentLastName);
-      
+                    list.get(i).StudentLastName);  
         }
         
+        // Loops through modules and adds to the module dropDown box
         for (int i = 0; i<moduleList.size(); i++){
-            moduleBox.addItem(moduleList.get(i).ModuleTitle);
-
-            
+            moduleBox.addItem(moduleList.get(i).ModuleTitle);          
         }
         
+        // Loops through modules and adds to the module dropDown box
         for (int i = 0; i<moduleList.size(); i++){
             newModuleBox.addItem(moduleList.get(i).ModuleTitle);
-
-            
         }
+        
+        // Connects List Model to the jList of students
         studentList.setModel(studentListModel);
    
+    try {
+        // Shows the selected student attendance
         attendanceLabel.setText(Integer.toString(getAttendance()) + "%");
-        
+    } catch (SQLException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
     }
-    
+ 
+}
 
+/**
+* The function searchButton gets the entered value and searches database
+*/  
+private void searchButton() {
+    String nameEntered = jTextField1.getText();
+        String[] splited;
+        // Split name by space
+        splited = nameEntered.split("\\s+");
+        // Loop through list of students in class
+        for (int i = 0; i<list.size(); i++){
+            // If it is a match, display details via labels
+            if((list.get(i).StudentFirstName == null ? splited[0] == null : list.get(i).StudentFirstName.equals(splited[0])) && (list.get(i).StudentLastName == null ? splited[1] == null : list.get(i).StudentLastName.equals(splited[1]))){
+                firstLabel.setText(list.get(i).StudentFirstName);
+                lastLabel.setText(list.get(i).StudentLastName);
+                attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance) + "%");
+           
+            }
+
+        }
+}
+
+/**
+* The function signInButton gets the selected students and passes it to updateAttendance()
+*/  
+private void signInButton() {
+     // Initialise list
+        List<String> list2 = new ArrayList<>();
+        
+        // Fill list2 with selected students
+        list2 = studentList.getSelectedValuesList();
+        int selectedIndex = studentList.getSelectedIndex();
+        int[] arrayID = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        
+        for(int i = 0; i<list2.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list2.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID[i] = list.get(j).StudentID;
+                    
+                    if (selectedIndex != -1) {
+                        studentListModel.remove(selectedIndex);
+                        if (studentListModel.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Register Complete");
+                        }
+                    }
+                }
+            }
+
+        }
+       
+        // Send students to updateAttendance() function to change attendance value
+        try {
+            updateAttendance(arrayID);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+/**
+* The function signInAbsentButton gets the selected students and passes it to updateAttendanceAbsent()
+*/ 
+private void signInAbsentButton() {
+    // Initialise variables
+        List<String> list3 = new ArrayList<>();
+        int selectedIndex = studentList.getSelectedIndex();
+        
+        // Fill list3 with selected students
+        list3 = studentList.getSelectedValuesList();
+        int[] arrayID2 = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID2[i] = list.get(j).StudentID;
+                    
+                    if (selectedIndex != -1) {
+                        studentListModel.remove(selectedIndex);
+                        if (studentListModel.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Register Complete");
+                        }
+                    }
+                }
+            }
+
+        }
+        
+        // Send students to updateAttendanceAbsent() function to change attendance value
+        try {
+            updateAttendanceAbsent(arrayID2);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+/**
+* The function addStudentButton gets the field values and adds a student using addStudent() function
+*/ 
+private void addStudentButton() {
+    // Put field values into variables
+    try {
+        String firstNameVar = firstName.getText();
+        String lastNameVar = lastName.getText();
+        Date dateVar = Date.valueOf(date.getText());
+        String passwordVar = password.getText();
+        String moduleVar = (String) moduleBox.getSelectedItem();
+
+        int selectedModuleID = 0;
+        
+        // Convert the Module Title to it's ModuleID using moduleList
+        for (int i = 0; i<moduleList.size(); i++){
+            if(moduleVar == moduleList.get(i).ModuleTitle){
+                selectedModuleID = moduleList.get(i).ModuleID;
+            }
+        }
+        
+        // Create new student object
+        student newStudent = new student(firstNameVar, lastNameVar, dateVar, passwordVar, selectedModuleID);
+        
+        // Use addStudent() function to add student object to database
+        if(addStudent(newStudent) == true){
+            JOptionPane.showMessageDialog(null, "Student Added successfully");
+        }
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
+/**
+* The function addClassButton gets the field values and adds a sclass using addNewClass() function
+*/ 
+private void addClassButton() {
+    // Put field values into variables
+        String location = newLocation.getText();
+        String date = newDate.getText();
+        String moduleVar = (String) newModuleBox.getSelectedItem();
+
+        int selectedModuleID = 0;
+        
+        // Convert the Module Title to it's ModuleID using moduleList
+        for (int i = 0; i<moduleList.size(); i++){
+            if(moduleVar == moduleList.get(i).ModuleTitle){
+                selectedModuleID = moduleList.get(i).ModuleID;
+            }
+        }
+        // Create new class object
+        newclass addClass = new newclass(location, date, selectedModuleID);
+    
+    // Use addNewClass() function to add class object to database
+    try {
+        if(addNewClass(addClass) == true){
+            JOptionPane.showMessageDialog(null, "Class Added successfully");
+        }
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SQLException ex) {
+        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,13 +274,13 @@ Connection con=null;
     private void initComponents() {
 
         jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        signOutButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentList = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        signInButton = new javax.swing.JButton();
+        absentButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         attendanceRegisterLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -109,7 +294,7 @@ Connection con=null;
         jLabel5 = new javax.swing.JLabel();
         firstLabel = new javax.swing.JLabel();
         lastLabel = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        searchStudent = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -121,7 +306,7 @@ Connection con=null;
         password = new javax.swing.JTextField();
         moduleBox = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        addStudentButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         newModuleBox = new javax.swing.JComboBox<>();
         newDate = new javax.swing.JFormattedTextField();
@@ -129,16 +314,16 @@ Connection con=null;
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        addClassButton = new javax.swing.JButton();
 
         jTextField2.setText("jTextField2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("Sign Out");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        signOutButton.setText("Sign Out");
+        signOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                signOutButtonActionPerformed(evt);
             }
         });
 
@@ -156,17 +341,17 @@ Connection con=null;
         });
         jScrollPane1.setViewportView(studentList);
 
-        jButton1.setText("Sign In");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        signInButton.setText("Sign In");
+        signInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                signInButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Absent");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        absentButton.setText("Absent");
+        absentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                absentButtonActionPerformed(evt);
             }
         });
 
@@ -179,9 +364,9 @@ Connection con=null;
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jButton1)
+                .addComponent(signInButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(absentButton)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -204,8 +389,8 @@ Connection con=null;
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(signInButton)
+                    .addComponent(absentButton))
                 .addGap(20, 20, 20))
         );
 
@@ -261,10 +446,10 @@ Connection con=null;
 
         lastLabel.setText("Highmore");
 
-        jButton3.setText("Search");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        searchStudent.setText("Search");
+        searchStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                searchStudentActionPerformed(evt);
             }
         });
 
@@ -285,7 +470,7 @@ Connection con=null;
                         .addGap(97, 97, 97)
                         .addComponent(lastLabel))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton3)
+                        .addComponent(searchStudent)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -299,7 +484,7 @@ Connection con=null;
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(searchStudent)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -336,10 +521,10 @@ Connection con=null;
 
         jLabel8.setText("Modules enrolled:");
 
-        jButton6.setText("Add Student");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        addStudentButton.setText("Add Student");
+        addStudentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                addStudentButtonActionPerformed(evt);
             }
         });
 
@@ -368,7 +553,7 @@ Connection con=null;
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(moduleBox, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(addStudentButton))
                 .addGap(192, 192, 192))
         );
         jPanel2Layout.setVerticalGroup(
@@ -381,7 +566,7 @@ Connection con=null;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(moduleBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(jButton6))
+                        .addComponent(addStudentButton))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -393,9 +578,9 @@ Connection con=null;
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -414,10 +599,10 @@ Connection con=null;
 
         jLabel13.setText("Lesson Location");
 
-        jButton5.setText("Add New Class");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        addClassButton.setText("Add New Class");
+        addClassButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                addClassButtonActionPerformed(evt);
             }
         });
 
@@ -438,7 +623,7 @@ Connection con=null;
                             .addComponent(newLocation)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(200, 200, 200)
-                        .addComponent(jButton5)))
+                        .addComponent(addClassButton)))
                 .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -457,7 +642,7 @@ Connection con=null;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(addClassButton)
                 .addContainerGap())
         );
 
@@ -472,7 +657,7 @@ Connection con=null;
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(225, 225, 225)
-                .addComponent(jButton2)
+                .addComponent(signOutButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -480,7 +665,7 @@ Connection con=null;
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(signOutButton)
                 .addContainerGap())
         );
 
@@ -488,9 +673,9 @@ Connection con=null;
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    // Clears class variables when Sign Out button is pressed
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
         try { 
-           
             new selectClass().setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
@@ -501,175 +686,60 @@ Connection con=null;
               t = null;
               currentClass = null;
            
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_signOutButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String nameEntered = jTextField1.getText();
-        String[] splited;
-        splited = nameEntered.split("\\s+");
-        for (int i = 0; i<list.size(); i++){
+    // When search student button is pressed, splits the first and last name,
+    // and gets attendance by searching against list of students
+    private void searchStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchStudentActionPerformed
+        searchButton();
+    }//GEN-LAST:event_searchStudentActionPerformed
 
-            if((list.get(i).StudentFirstName == null ? splited[0] == null : list.get(i).StudentFirstName.equals(splited[0])) && (list.get(i).StudentLastName == null ? splited[1] == null : list.get(i).StudentLastName.equals(splited[1]))){
-                firstLabel.setText(list.get(i).StudentFirstName);
-                lastLabel.setText(list.get(i).StudentLastName);
-                attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance) + "%");
-           
-            }
-
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
 
     }//GEN-LAST:event_jTextField1KeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        List<String> list2 = new ArrayList<>();
-
-        list2 = studentList.getSelectedValuesList();
-        int selectedIndex = studentList.getSelectedIndex();
-        int[] arrayID = new int[30];
-
-        for(int i = 0; i<list2.size(); i++){
-
-            for(int j= 0; j<list.size(); j++){
-
-                if(list2.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
-                    arrayID[i] = list.get(j).StudentID;
-                    
-                    if (selectedIndex != -1) {
-                        studentListModel.remove(selectedIndex);
-                        if (studentListModel.isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Register Complete");
-                        }
-                    }
-                }
-            }
-
-        }
-        //System.out.println(arrayID[0]);
-        try {
-
-            updateAttendance(arrayID);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    // When the Sign In button is pressed, the selected students are signed in to class
+    // and removed from the list
+    private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
+       signInButton();
+    }//GEN-LAST:event_signInButtonActionPerformed
+   // When the Absent button is pressed, the selected students are registered as absent
+    // and removed from the list
+    private void absentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absentButtonActionPerformed
         
-        List<String> list3 = new ArrayList<>();
-        int selectedIndex = studentList.getSelectedIndex();
-        list3 = studentList.getSelectedValuesList();
-       
-        int[] arrayID2 = new int[30];
+        signInAbsentButton();
 
-        for(int i = 0; i<list3.size(); i++){
-
-            for(int j= 0; j<list.size(); j++){
-
-                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
-                    arrayID2[i] = list.get(j).StudentID;
-                    
-                    if (selectedIndex != -1) {
-                        studentListModel.remove(selectedIndex);
-                        if (studentListModel.isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Register Complete");
-                        }
-                    }
-                }
-            }
-
-        }
-        //System.out.println(arrayID[0]);
-        try {
-
-            updateAttendanceAbsent(arrayID2);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_absentButtonActionPerformed
 
     private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    // When Add New Student button is pressed, use fields to create new student
+    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
         
-    try {
-        String firstNameVar = firstName.getText();
-        String lastNameVar = lastName.getText();
-        Date dateVar = Date.valueOf(date.getText());
-        String passwordVar = password.getText();
-        String moduleVar = (String) moduleBox.getSelectedItem();
-        
-        
-        
-        int selectedModuleID = 0;
-        
-        for (int i = 0; i<moduleList.size(); i++){
-            if(moduleVar == moduleList.get(i).ModuleTitle){
-                selectedModuleID = moduleList.get(i).ModuleID;
-            }
-        }
-        
-        student newStudent = new student(firstNameVar, lastNameVar, dateVar, passwordVar, selectedModuleID);
-        
-
-        if(addStudent(newStudent) == true){
-            JOptionPane.showMessageDialog(null, "Student Added successfully");
-        }
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SQLException ex) {
-        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    addStudentButton();
   
-    }//GEN-LAST:event_jButton6ActionPerformed
-
+    }//GEN-LAST:event_addStudentButtonActionPerformed
+    
+    // When a student in the list is clicked, it's details are shown via labels
     private void studentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentListMouseClicked
         String tmp = (String)studentList.getSelectedValue();
         
         for (int i = 0; i<list.size(); i++){
             if (tmp.equals(list.get(i).StudentFirstName + " " + list.get(i).StudentLastName)){
                 attendanceRegisterLabel.setText(String.valueOf(list.get(i).StudentAttendance)+"%");
-      
             }
-
         }
     }//GEN-LAST:event_studentListMouseClicked
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String location = newLocation.getText();
-        String date = newDate.getText();
-        String moduleVar = (String) newModuleBox.getSelectedItem();
+    // When Add Class is pressed, a class object is created and added to database
+    private void addClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
         
+        addClassButton();
         
-        
-        int selectedModuleID = 0;
-        
-        for (int i = 0; i<moduleList.size(); i++){
-            if(moduleVar == moduleList.get(i).ModuleTitle){
-                selectedModuleID = moduleList.get(i).ModuleID;
-            }
-        }
-        
-        newclass addClass = new newclass(location, date, selectedModuleID);
-        
-    try {
-        if(addNewClass(addClass) == true){
-            JOptionPane.showMessageDialog(null, "Class Added successfully");
-        }
-    } catch (ClassNotFoundException ex) {
-        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (SQLException ex) {
-        Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_addClassButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -711,18 +781,15 @@ Connection con=null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton absentButton;
+    private javax.swing.JButton addClassButton;
+    private javax.swing.JButton addStudentButton;
     private javax.swing.JLabel attendanceIndvLabel;
     private javax.swing.JLabel attendanceLabel;
     private javax.swing.JLabel attendanceRegisterLabel;
     private javax.swing.JFormattedTextField date;
     private javax.swing.JLabel firstLabel;
     private javax.swing.JTextField firstName;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -752,6 +819,9 @@ Connection con=null;
     private javax.swing.JTextField newLocation;
     private javax.swing.JComboBox<String> newModuleBox;
     private javax.swing.JTextField password;
+    private javax.swing.JButton searchStudent;
+    private javax.swing.JButton signInButton;
+    private javax.swing.JButton signOutButton;
     private javax.swing.JList<String> studentList;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,10 +11,34 @@ package Classes;
  */
 
 public class lesson {
+
+    /**
+     *
+     */
     public int LessonID;
+
+    /**
+     *
+     */
     public int ModuleID;
+
+    /**
+     *
+     */
     public String LessonDate;
+
+    /**
+     *
+     */
     public String LessonLocation;
+
+    /**
+     *
+     * @param lessonID
+     * @param moduleID
+     * @param lessonDate
+     * @param lessonLocation
+     */
     public lesson(int lessonID, int moduleID, String lessonDate, String lessonLocation){
         LessonID = lessonID;
         ModuleID = moduleID;
@@ -22,6 +46,11 @@ public class lesson {
         LessonLocation = lessonLocation;
         
     }
+
+    /**
+     *
+     * @return
+     */
     public int displayModuleID(){
         return ModuleID;
     }

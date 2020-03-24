@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import JarFiles.studentAttendanceSystem;
-import static JarFiles.studentAttendanceSystem.login;
+import static JarFiles.studentAttendanceSystem.*;
 import static JarFiles.studentAttendanceSystem.t;
 /**
  *
@@ -48,8 +48,8 @@ public class login extends javax.swing.JFrame {
         username = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        logInButton = new javax.swing.JToggleButton();
+        quitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,18 +69,18 @@ public class login extends javax.swing.JFrame {
 
         jLabel2.setText("Password:");
 
-        jToggleButton1.setSelected(true);
-        jToggleButton1.setText("Log In");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        logInButton.setSelected(true);
+        logInButton.setText("Log In");
+        logInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                logInButtonActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Quit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        quitButton.setText("Quit");
+        quitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                quitButtonActionPerformed(evt);
             }
         });
 
@@ -111,9 +111,9 @@ public class login extends javax.swing.JFrame {
                         .addGap(0, 60, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jToggleButton1)
+                        .addComponent(logInButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(quitButton)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,8 +133,8 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jButton1))
+                    .addComponent(logInButton)
+                    .addComponent(quitButton))
                 .addContainerGap())
         );
 
@@ -162,21 +162,26 @@ public class login extends javax.swing.JFrame {
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-       //JOptionPane.showMessageDialog(null, "Loading please wait");
+    
+    // When Log In button is pressed, checks credentials against database and 
+    // closes current window
+    private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInButtonActionPerformed
+       
+        // Pass username and password to function 'login()' to check
         if (login(username.getText(), password.getText()) == true) {
            new login().setVisible(false); 
              this.dispose();
        }
 
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_logInButtonActionPerformed
+    
+    // When Quit button is pressed, close window and quit program
+    private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
                 
         this.dispose();
+        closeConnection();
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_quitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,14 +220,14 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton logInButton;
     private javax.swing.JPasswordField password;
+    private javax.swing.JButton quitButton;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

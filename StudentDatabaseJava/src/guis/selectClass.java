@@ -18,9 +18,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import JarFiles.studentAttendanceSystem;
-import static JarFiles.studentAttendanceSystem.getClasses;
-import static JarFiles.studentAttendanceSystem.t;
-import static JarFiles.studentAttendanceSystem.currentClass;
+import static JarFiles.studentAttendanceSystem.*;
+
 /**
  *
  * @author harryfresco
@@ -30,24 +29,33 @@ public class selectClass extends javax.swing.JFrame {
     /**
      * Creates new form selectClass
      */
+    
+    // Initialise new list to hold all lessons that teacher teaches
     List<lesson> list = new ArrayList<>();
 
+    /**
+     *
+     * @throws SQLException
+     */
     public selectClass() throws SQLException {
         initComponents();
+        // Initialise classListModel for the list to show classes
         DefaultListModel classListModel = new DefaultListModel();
         
-                list = getClasses();
+        // Use function 'getClasses' to fill the list with classes
+        list = getClasses();
         
+        // A for-loop to fill the classListModel with classes
         for (int i = 0; i<list.size(); i++){
             classListModel.addElement(list.get(i).LessonDate);
         }
         
-        
+        // Add the classes to the jList
         classList.setModel(classListModel);
+        
         
         welcomeLabel.setText("Welcome, " +t.displayName()+". Please select the class to view:");
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +66,7 @@ public class selectClass extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        signOutButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         classList = new javax.swing.JList<>();
@@ -66,17 +74,17 @@ public class selectClass extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         timeLabel = new javax.swing.JLabel();
         moduleNameLabel = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        selectClassButton = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Sign Out");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        signOutButton.setText("Sign Out");
+        signOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                signOutButtonActionPerformed(evt);
             }
         });
 
@@ -103,10 +111,10 @@ public class selectClass extends javax.swing.JFrame {
 
         moduleNameLabel.setText("SOFT355");
 
-        jButton3.setText("Select Class");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        selectClassButton.setText("Select Class");
+        selectClassButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                selectClassButtonActionPerformed(evt);
             }
         });
 
@@ -125,7 +133,7 @@ public class selectClass extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(timeLabel)
-                    .addComponent(jButton3))
+                    .addComponent(selectClassButton))
                 .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -143,7 +151,7 @@ public class selectClass extends javax.swing.JFrame {
                             .addComponent(moduleNameLabel)
                             .addComponent(timeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                        .addComponent(selectClassButton)))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -160,7 +168,7 @@ public class selectClass extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(230, 230, 230)
-                .addComponent(jButton1)
+                .addComponent(signOutButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -175,7 +183,7 @@ public class selectClass extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(signOutButton)
                 .addContainerGap())
         );
 
@@ -200,21 +208,24 @@ public class selectClass extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    // When the class is selected, go to main page
+    private void selectClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectClassButtonActionPerformed
 
-       
         try {
             new MainPage().setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(selectClass.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_selectClassButtonActionPerformed
 
+    // When a class is pressed, it's details are shown via labels and added to class
     private void classListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classListMouseClicked
 
         String tmp = (String)classList.getSelectedValue();
         
+        // Checks the class with the list of all classes, and makes a new lesson
+        // called currentClass
         for (int i = 0; i<list.size(); i++){
             if (tmp == list.get(i).LessonDate){
                 moduleNameLabel.setText(list.get(i).LessonLocation);
@@ -227,7 +238,7 @@ public class selectClass extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_classListMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
         try {
 
             new selectClass().setVisible(false);
@@ -238,7 +249,7 @@ public class selectClass extends javax.swing.JFrame {
         new login().setVisible(true);
 
         t = null;
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_signOutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,14 +292,14 @@ public class selectClass extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> classList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel moduleNameLabel;
+    private javax.swing.JButton selectClassButton;
+    private javax.swing.JButton signOutButton;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables

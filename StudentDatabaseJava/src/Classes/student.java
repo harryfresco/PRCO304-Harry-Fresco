@@ -12,16 +12,63 @@ import java.sql.Date;
  * @author harryfresco
  */
 public class student {
+
+    /**
+     *
+     */
     public int StudentID;
+
+    /**
+     *
+     */
     public String StudentFirstName;
+
+    /**
+     *
+     */
     public String StudentLastName;
+
+    /**
+     *
+     */
     public Date StudentDOB;
+
+    /**
+     *
+     */
     public int StudentAttendance;
+
+    /**
+     *
+     */
     public int StudentNumOfClasses;
+
+    /**
+     *
+     */
     public int ModuleID;
+
+    /**
+     *
+     */
     public int Classes_present;
+
+    /**
+     *
+     */
     public String StudentPassword;
     
+    /**
+     *
+     * @param studentID
+     * @param studentFirstName
+     * @param studentLastName
+     * @param studentDOB
+     * @param studentAttendance
+     * @param studentNumOfClasses
+     * @param moduleID
+     * @param classes_present
+     */
     public student(int studentID, String studentFirstName, String studentLastName,
             Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID, int classes_present){
         StudentID = studentID;
@@ -34,6 +81,14 @@ public class student {
         Classes_present = classes_present;
     }
 
+    /**
+     *
+     * @param firstNameVar
+     * @param lastNameVar
+     * @param dateVar
+     * @param passwordVar
+     * @param moduleVar
+     */
     public student(String firstNameVar, String lastNameVar, Date dateVar, String passwordVar, int moduleVar) {
         
         StudentFirstName = firstNameVar;
@@ -46,6 +101,10 @@ public class student {
         Classes_present = 0;
     }
     
+    /**
+     *
+     * @return
+     */
     public String displayStudents(){
         return StudentFirstName;
     }

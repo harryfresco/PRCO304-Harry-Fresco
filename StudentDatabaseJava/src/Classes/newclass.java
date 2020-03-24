@@ -13,10 +13,28 @@ import java.time.LocalDateTime;
  */
 public class newclass {
 //location, date, selectedModuleID
+
+    /**
+     *
+     */
     public String Location;
+
+    /**
+     *
+     */
     public String Date;
+
+    /**
+     *
+     */
     public int ModuleID;
     
+    /**
+     *
+     * @param location
+     * @param date
+     * @param selectedModuleID
+     */
     public newclass(String location, String date, int selectedModuleID) {
          Location = location;
          Date = date;
