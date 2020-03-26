@@ -31,6 +31,7 @@ import static JarFiles.studentAttendanceSystem.*;
 import static JarFiles.updateAttendance.*;
 import static JarFiles.getDatabase.*;
 import static JarFiles.addDatabase.*;
+import static JarFiles.referrals.*;
 import java.time.LocalDateTime;
 /**
  *
@@ -293,6 +294,10 @@ private void addClassButton() {
         studentIDLabel = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        referralLabel = new javax.swing.JLabel();
+        referralButton = new javax.swing.JButton();
+        negativeReferralButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         attendanceLabel = new javax.swing.JLabel();
@@ -381,6 +386,24 @@ private void addClassButton() {
 
         passwordLabel.setText("N/A");
 
+        jLabel18.setText("Referrals:");
+
+        referralLabel.setText("N/A");
+
+        referralButton.setText("Positive Referral");
+        referralButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                referralButtonActionPerformed(evt);
+            }
+        });
+
+        negativeReferralButton.setText("Negative Referral");
+        negativeReferralButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                negativeReferralButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -393,21 +416,33 @@ private void addClassButton() {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(attendanceRegisterLabel))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(studentIDLabel))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addGap(18, 18, 18)
-                        .addComponent(passwordLabel)))
-                .addContainerGap(124, Short.MAX_VALUE))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(attendanceRegisterLabel))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(studentIDLabel))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel18))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(referralLabel)
+                                    .addComponent(passwordLabel))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(referralButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(negativeReferralButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,6 +461,14 @@ private void addClassButton() {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(passwordLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(referralLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(referralButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(negativeReferralButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -803,6 +846,7 @@ private void addClassButton() {
                 attendanceRegisterLabel.setText(String.valueOf(list.get(i).StudentAttendance)+"%");
                 studentIDLabel.setText(String.valueOf(list.get(i).StudentID));
                 passwordLabel.setText(list.get(i).StudentPassword);
+                referralLabel.setText(Integer.toString(list.get(i).StudentReferral));
             }
         }
     }//GEN-LAST:event_studentListMouseClicked
@@ -813,6 +857,68 @@ private void addClassButton() {
         addClassButton();
         
     }//GEN-LAST:event_addClassButtonActionPerformed
+
+    private void referralButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referralButtonActionPerformed
+        
+        // Initialise list
+        List<String> list3 = new ArrayList<>();
+        
+        // Fill list2 with selected students
+        list3 = studentList.getSelectedValuesList();
+        int selectedIndex = studentList.getSelectedIndex();
+        int[] arrayID = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID[i] = list.get(j).StudentID;
+                }
+            }
+        }
+       
+        // Send students to updateAttendance() function to change attendance value
+        try {
+            addReferral(arrayID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_referralButtonActionPerformed
+
+    private void negativeReferralButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativeReferralButtonActionPerformed
+        
+        // Initialise list
+        List<String> list3 = new ArrayList<>();
+        
+        // Fill list2 with selected students
+        list3 = studentList.getSelectedValuesList();
+        int selectedIndex = studentList.getSelectedIndex();
+        int[] arrayID = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID[i] = list.get(j).StudentID;
+                }
+            }
+        }
+       
+        // Send students to updateAttendance() function to change attendance value
+        try {
+            negativeReferral(arrayID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_negativeReferralButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -872,6 +978,7 @@ private void addClassButton() {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -892,12 +999,15 @@ private void addClassButton() {
     private javax.swing.JLabel lastLabel;
     private javax.swing.JTextField lastName;
     private javax.swing.JComboBox<String> moduleBox;
+    private javax.swing.JButton negativeReferralButton;
     private javax.swing.JFormattedTextField newDate;
     private javax.swing.JTextField newLocation;
     private javax.swing.JComboBox<String> newModuleBox;
     private javax.swing.JTextField password;
     private javax.swing.JLabel passwordIndvLabel;
     private javax.swing.JLabel passwordLabel;
+    private javax.swing.JButton referralButton;
+    private javax.swing.JLabel referralLabel;
     private javax.swing.JButton searchStudent;
     private javax.swing.JButton signInButton;
     private javax.swing.JButton signOutButton;

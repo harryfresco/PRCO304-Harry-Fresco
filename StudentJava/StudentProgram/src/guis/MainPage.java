@@ -7,6 +7,9 @@
 package guis;
 
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static studentprogram.studentAttendanceSystem.*;
 
 /**
@@ -26,7 +29,9 @@ public class MainPage extends javax.swing.JFrame {
           idLabel.setText(Integer.toString(s.StudentID));
           passwordLabel.setText(s.StudentPassword);
           moduleLabel.setText(Integer.toString(s.ModuleID));
+          numReferralsLabel.setText(Integer.toString(s.StudentReferral));
           changeColour(s.StudentAttendance);
+          changeColourReferral(s.StudentReferral);
     }
     
     public void changeColour(int attendance){
@@ -38,10 +43,19 @@ public class MainPage extends javax.swing.JFrame {
                 jLabel2.setForeground(Color.ORANGE);
             }
             jLabel2.setForeground(Color.GREEN);
-        }
-        
-        
-        
+        }   
+    }
+    
+    public void  changeColourReferral(int referral){
+
+            if(referral >= 0){
+                
+                numReferralsLabel.setForeground(Color.green);
+            }
+            if (referral < 0){
+                    numReferralsLabel.setForeground(Color.red);
+                }
+
     }
 
     /** This method is called from within the constructor to
@@ -70,6 +84,9 @@ public class MainPage extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         moduleLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        numReferralsLabel = new javax.swing.JLabel();
+        signOutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -142,8 +159,12 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(moduleLabel))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel5.setText("Number of Referrals:");
+
+        numReferralsLabel.setText("0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -157,16 +178,22 @@ public class MainPage extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(welcomeNameLabel)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(118, 118, 118)
+                                .addComponent(jLabel2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
                                     .addComponent(numClassLabel)
-                                    .addComponent(classPresentLabel))))
-                        .addGap(0, 158, Short.MAX_VALUE)))
+                                    .addComponent(classPresentLabel)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(67, 67, 67)
+                                .addComponent(numReferralsLabel)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -180,16 +207,27 @@ public class MainPage extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(numReferralsLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(numClassLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(classPresentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        signOutButton.setText("Sign Out");
+        signOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signOutButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,17 +237,32 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(145, 145, 145)
+                .addComponent(signOutButton)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(signOutButton)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void signOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutButtonActionPerformed
+        new login().setVisible(false);
+             this.dispose(); 
+              new login().setVisible(true);
+
+              s = null;
+    }//GEN-LAST:event_signOutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +311,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -266,7 +320,9 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel moduleLabel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JLabel numClassLabel;
+    private javax.swing.JLabel numReferralsLabel;
     private javax.swing.JLabel passwordLabel;
+    private javax.swing.JButton signOutButton;
     private javax.swing.JLabel welcomeNameLabel;
     // End of variables declaration//GEN-END:variables
 

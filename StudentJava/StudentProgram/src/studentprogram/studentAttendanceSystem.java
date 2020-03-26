@@ -75,7 +75,7 @@ public class studentAttendanceSystem {
 
                 s = new student(rs.getInt("StudentID"), rs.getString("StudentFirstName"), rs.getString("StudentLastName"),
                 rs.getDate("studentDOB"), rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"), rs.getInt("ModuleID"),
-                        rs.getString("StudentPassword"), rs.getInt("classes_present"));
+                        rs.getString("StudentPassword"), rs.getInt("classes_present"), rs.getInt("StudentReferral"));
            }
            else{
                 JOptionPane.showMessageDialog(null, "Username and password not Correct");

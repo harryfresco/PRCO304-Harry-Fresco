@@ -92,7 +92,8 @@ public class getDatabase {
                 student s = new student(rs.getInt("StudentID"), rs.getString("StudentFirstName"),
                         rs.getString("StudentLastName"), rs.getDate("StudentDOB"), 
                         rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"),
-                        rs.getInt("ModuleID"),rs.getString("StudentPassword"), rs.getInt("classes_present"));
+                        rs.getInt("ModuleID"),rs.getString("StudentPassword"), rs.getInt("classes_present"),
+                        rs.getInt("StudentReferral"));
              
                 studentList.add(s);  
             } 

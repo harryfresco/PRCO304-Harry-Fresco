@@ -57,6 +57,7 @@ public class student {
      *
      */
     public String StudentPassword;
+    public int StudentReferral;
     
     /**
      *
@@ -70,7 +71,8 @@ public class student {
      * @param classes_present
      */
     public student(int studentID, String studentFirstName, String studentLastName,
-            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID,String passwordVar, int classes_present){
+            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID,String passwordVar, int classes_present,
+            int studentReferral){
         StudentID = studentID;
         StudentFirstName = studentFirstName;
         StudentLastName = studentLastName;
@@ -80,6 +82,7 @@ public class student {
         ModuleID = moduleID;
         Classes_present = classes_present;
         StudentPassword = passwordVar;
+        StudentReferral = studentReferral;
     }
 
     /**
