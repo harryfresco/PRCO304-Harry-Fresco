@@ -9,6 +9,7 @@ import Classes.newclass;
 import Classes.module;
 import Classes.student;
 
+
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
@@ -27,6 +28,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import static JarFiles.studentAttendanceSystem.*;
+import static JarFiles.updateAttendance.*;
+import static JarFiles.getDatabase.*;
+import static JarFiles.addDatabase.*;
 import java.time.LocalDateTime;
 /**
  *
@@ -90,6 +94,7 @@ private void fillBoxesAndLabels() {
     try {
         // Shows the selected student attendance
         attendanceLabel.setText(Integer.toString(getAttendance()) + "%");
+        
     } catch (SQLException ex) {
         Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -111,7 +116,8 @@ private void searchButton() {
                 firstLabel.setText(list.get(i).StudentFirstName);
                 lastLabel.setText(list.get(i).StudentLastName);
                 attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance) + "%");
-           
+                studentIDIndvLabel.setText(String.valueOf(list.get(i).StudentID));
+                passwordIndvLabel.setText(list.get(i).StudentPassword);
             }
 
         }
@@ -153,7 +159,7 @@ private void signInButton() {
         // Send students to updateAttendance() function to change attendance value
         try {
             updateAttendance(arrayID);
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
 }
@@ -283,6 +289,10 @@ private void addClassButton() {
         absentButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         attendanceRegisterLabel = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        studentIDLabel = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        passwordLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         attendanceLabel = new javax.swing.JLabel();
@@ -295,6 +305,10 @@ private void addClassButton() {
         firstLabel = new javax.swing.JLabel();
         lastLabel = new javax.swing.JLabel();
         searchStudent = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        studentIDIndvLabel = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        passwordIndvLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -359,6 +373,14 @@ private void addClassButton() {
 
         attendanceRegisterLabel.setText("100%");
 
+        jLabel14.setText("Student ID: ");
+
+        studentIDLabel.setText("N/A");
+
+        jLabel15.setText("Password: ");
+
+        passwordLabel.setText("N/A");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -372,9 +394,19 @@ private void addClassButton() {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(attendanceRegisterLabel)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(attendanceRegisterLabel))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(studentIDLabel))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordLabel)))
                 .addContainerGap(124, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -386,6 +418,14 @@ private void addClassButton() {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(attendanceRegisterLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(studentIDLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(passwordLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -453,6 +493,14 @@ private void addClassButton() {
             }
         });
 
+        jLabel16.setText("Student ID:");
+
+        studentIDIndvLabel.setText("N/A");
+
+        jLabel17.setText("Password:");
+
+        passwordIndvLabel.setText("N/A");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -469,22 +517,50 @@ private void addClassButton() {
                         .addComponent(firstLabel)
                         .addGap(97, 97, 97)
                         .addComponent(lastLabel))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(searchStudent)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(24, 24, 24)
-                .addComponent(attendanceIndvLabel)
-                .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(searchStudent)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(24, 24, 24)
+                                .addComponent(attendanceIndvLabel))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                                        .addComponent(studentIDIndvLabel))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel17)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(passwordIndvLabel)))))))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchStudent)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchStudent))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(attendanceIndvLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(studentIDIndvLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(passwordIndvLabel))))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -494,11 +570,6 @@ private void addClassButton() {
                     .addComponent(firstLabel)
                     .addComponent(lastLabel))
                 .addContainerGap(153, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(attendanceIndvLabel))
-                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Search Student", jPanel1);
@@ -730,6 +801,8 @@ private void addClassButton() {
         for (int i = 0; i<list.size(); i++){
             if (tmp.equals(list.get(i).StudentFirstName + " " + list.get(i).StudentLastName)){
                 attendanceRegisterLabel.setText(String.valueOf(list.get(i).StudentAttendance)+"%");
+                studentIDLabel.setText(String.valueOf(list.get(i).StudentID));
+                passwordLabel.setText(list.get(i).StudentPassword);
             }
         }
     }//GEN-LAST:event_studentListMouseClicked
@@ -795,6 +868,10 @@ private void addClassButton() {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -819,9 +896,13 @@ private void addClassButton() {
     private javax.swing.JTextField newLocation;
     private javax.swing.JComboBox<String> newModuleBox;
     private javax.swing.JTextField password;
+    private javax.swing.JLabel passwordIndvLabel;
+    private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton searchStudent;
     private javax.swing.JButton signInButton;
     private javax.swing.JButton signOutButton;
+    private javax.swing.JLabel studentIDIndvLabel;
+    private javax.swing.JLabel studentIDLabel;
     private javax.swing.JList<String> studentList;
     // End of variables declaration//GEN-END:variables
 }

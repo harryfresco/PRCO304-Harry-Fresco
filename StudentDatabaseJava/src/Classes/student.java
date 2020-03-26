@@ -70,7 +70,7 @@ public class student {
      * @param classes_present
      */
     public student(int studentID, String studentFirstName, String studentLastName,
-            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID, int classes_present){
+            Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID,String passwordVar, int classes_present){
         StudentID = studentID;
         StudentFirstName = studentFirstName;
         StudentLastName = studentLastName;
@@ -79,6 +79,7 @@ public class student {
         StudentNumOfClasses = studentNumOfClasses;
         ModuleID = moduleID;
         Classes_present = classes_present;
+        StudentPassword = passwordVar;
     }
 
     /**
