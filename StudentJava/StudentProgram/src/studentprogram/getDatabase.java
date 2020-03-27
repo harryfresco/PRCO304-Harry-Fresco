@@ -26,7 +26,15 @@ public class getDatabase {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-     public static List<lesson> getClasses() throws SQLException{
+
+    /**
+     * getClasses Connects to the database and selects 
+     * the classes that the student, currently logged in 
+     * is assigned to
+     * @return List of lesson objects
+     * @throws SQLException
+     */
+    public static List<lesson> getClasses() throws SQLException{
         ResultSet rs = null;
          List<lesson> lessonList = new ArrayList<>();
 

@@ -25,6 +25,12 @@ public class referrals {
     public static void main(String[] args) {
         // TODO code application logic here
     }
+
+    /**
+     *
+     * @param arrayID
+     * @throws SQLException
+     */
     public static void addReferral(int arrayID[]) throws SQLException{
             // Adds 1 to the Number of Classes and Number of Classes present
             String sql = "UPDATE dbo.student_table SET StudentReferral = StudentReferral + 1 "
@@ -39,6 +45,11 @@ public class referrals {
             }
     }
     
+    /**
+     *
+     * @param arrayID
+     * @throws SQLException
+     */
     public static void negativeReferral(int arrayID[]) throws SQLException{
             // Adds 1 to the Number of Classes and Number of Classes present
             String sql = "UPDATE dbo.student_table SET StudentReferral = StudentReferral - 1 "

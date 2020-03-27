@@ -220,7 +220,9 @@ public class selectClass extends javax.swing.JFrame {
         this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_selectClassButtonActionPerformed
 
-    // When a class is pressed, it's details are shown via labels and added to class
+    /**
+     * When a class is pressed, it's details are shown via labels and added to class.
+     */
     private void classListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classListMouseClicked
 
         String tmp = (String)classList.getSelectedValue();

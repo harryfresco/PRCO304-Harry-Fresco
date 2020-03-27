@@ -70,7 +70,8 @@ Connection con=null;
     }
    
 /**
-* The function fillBoxesAndLabels fills the combo boxes
+* The function fillBoxesAndLabels fills the combo boxes.
+* 
 */    
 private void fillBoxesAndLabels() {
     // Loops through list of students in class and adds full name to list
@@ -103,7 +104,8 @@ private void fillBoxesAndLabels() {
 }
 
 /**
-* The function searchButton gets the entered value and searches database
+* The function searchButton gets the entered value and searches database.
+* 
 */  
 private void searchButton() {
     String nameEntered = jTextField1.getText();
@@ -118,14 +120,15 @@ private void searchButton() {
                 lastLabel.setText(list.get(i).StudentLastName);
                 attendanceIndvLabel.setText(String.valueOf(list.get(i).StudentAttendance) + "%");
                 studentIDIndvLabel.setText(String.valueOf(list.get(i).StudentID));
-                passwordIndvLabel.setText(list.get(i).StudentPassword);
+                
             }
 
         }
 }
 
 /**
-* The function signInButton gets the selected students and passes it to updateAttendance()
+* Gets the selected students and passes it to updateAttendance().
+* 
 */  
 private void signInButton() {
      // Initialise list
@@ -166,7 +169,8 @@ private void signInButton() {
 }
 
 /**
-* The function signInAbsentButton gets the selected students and passes it to updateAttendanceAbsent()
+* Gets the selected students and passes it to updateAttendanceAbsent().
+* 
 */ 
 private void signInAbsentButton() {
     // Initialise variables
@@ -206,7 +210,8 @@ private void signInAbsentButton() {
 }
 
 /**
-* The function addStudentButton gets the field values and adds a student using addStudent() function
+* Gets the field values and adds a student using addStudent() function.
+* 
 */ 
 private void addStudentButton() {
     // Put field values into variables
@@ -241,7 +246,8 @@ private void addStudentButton() {
 }
 
 /**
-* The function addClassButton gets the field values and adds a sclass using addNewClass() function
+* Gets the field values and adds a class using addNewClass() function.
+* 
 */ 
 private void addClassButton() {
     // Put field values into variables
@@ -292,8 +298,6 @@ private void addClassButton() {
         attendanceRegisterLabel = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         studentIDLabel = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        passwordLabel = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         referralLabel = new javax.swing.JLabel();
         referralButton = new javax.swing.JButton();
@@ -312,8 +316,6 @@ private void addClassButton() {
         searchStudent = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         studentIDIndvLabel = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        passwordIndvLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -382,10 +384,6 @@ private void addClassButton() {
 
         studentIDLabel.setText("N/A");
 
-        jLabel15.setText("Password: ");
-
-        passwordLabel.setText("N/A");
-
         jLabel18.setText("Referrals:");
 
         referralLabel.setText("N/A");
@@ -429,13 +427,9 @@ private void addClassButton() {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(studentIDLabel))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jLabel18))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(referralLabel)
-                                    .addComponent(passwordLabel))))
+                                .addComponent(jLabel18)
+                                .addGap(26, 26, 26)
+                                .addComponent(referralLabel)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
@@ -457,11 +451,7 @@ private void addClassButton() {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(studentIDLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(passwordLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
                             .addComponent(referralLabel))
@@ -540,10 +530,6 @@ private void addClassButton() {
 
         studentIDIndvLabel.setText("N/A");
 
-        jLabel17.setText("Password:");
-
-        passwordIndvLabel.setText("N/A");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -572,15 +558,9 @@ private void addClassButton() {
                                 .addComponent(attendanceIndvLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel16)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                                        .addComponent(studentIDIndvLabel))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel17)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(passwordIndvLabel)))))))
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                                .addComponent(studentIDIndvLabel)))))
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -600,10 +580,7 @@ private void addClassButton() {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
                             .addComponent(studentIDIndvLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel17)
-                            .addComponent(passwordIndvLabel))))
+                        .addGap(22, 22, 22)))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -845,7 +822,7 @@ private void addClassButton() {
             if (tmp.equals(list.get(i).StudentFirstName + " " + list.get(i).StudentLastName)){
                 attendanceRegisterLabel.setText(String.valueOf(list.get(i).StudentAttendance)+"%");
                 studentIDLabel.setText(String.valueOf(list.get(i).StudentID));
-                passwordLabel.setText(list.get(i).StudentPassword);
+               
                 referralLabel.setText(Integer.toString(list.get(i).StudentReferral));
             }
         }
@@ -975,9 +952,7 @@ private void addClassButton() {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1004,8 +979,6 @@ private void addClassButton() {
     private javax.swing.JTextField newLocation;
     private javax.swing.JComboBox<String> newModuleBox;
     private javax.swing.JTextField password;
-    private javax.swing.JLabel passwordIndvLabel;
-    private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton referralButton;
     private javax.swing.JLabel referralLabel;
     private javax.swing.JButton searchStudent;

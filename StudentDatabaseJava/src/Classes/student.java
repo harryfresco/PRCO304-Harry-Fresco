@@ -57,6 +57,10 @@ public class student {
      *
      */
     public String StudentPassword;
+
+    /**
+     *
+     */
     public int StudentReferral;
     
     /**
@@ -68,7 +72,9 @@ public class student {
      * @param studentAttendance
      * @param studentNumOfClasses
      * @param moduleID
+     * @param passwordVar
      * @param classes_present
+     * @param studentReferral
      */
     public student(int studentID, String studentFirstName, String studentLastName,
             Date studentDOB, int studentAttendance, int studentNumOfClasses, int moduleID,String passwordVar, int classes_present,
@@ -106,7 +112,7 @@ public class student {
     }
     
     /**
-     *
+     * Display Students, returns the student's first name
      * @return
      */
     public String displayStudents(){

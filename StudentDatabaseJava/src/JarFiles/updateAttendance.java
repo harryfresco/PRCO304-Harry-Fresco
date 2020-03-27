@@ -22,6 +22,7 @@ public class updateAttendance {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
         
@@ -32,7 +33,6 @@ public class updateAttendance {
      * calculates and updates the attendance after
      * @param arrayID An array of the Student ID's
      * @throws SQLException
-     * @throws ClassNotFoundException
      */
     public static void updateAttendance(int arrayID[]) throws SQLException{
             // Adds 1 to the Number of Classes and Number of Classes present

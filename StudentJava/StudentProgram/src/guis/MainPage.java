@@ -44,6 +44,15 @@ public class MainPage extends javax.swing.JFrame {
         classList.setModel(classListModel);
     }
     
+    /**
+     * This function gets the student's attendance,
+     * and changes the colour of the attendance label.
+     * More that 66% = Green
+     * Less than 66% = Orange
+     * Less than 33% = Red
+     * 
+     * @param attendance The students attendance percentage
+     */
     private void changeColour(int attendance){
         if(attendance <= 100){
             if(attendance <= 66){
@@ -56,6 +65,12 @@ public class MainPage extends javax.swing.JFrame {
         }   
     }
     
+    /**
+     * Changes the colour of the label depending 
+     * on the number of referrals the student has.
+     *  (Green if positive, Red if negative)
+     * @param referral 
+     */
     private void  changeColourReferral(int referral){
 
             if(referral >= 0){
@@ -68,6 +83,9 @@ public class MainPage extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Sets the labels to the details of the student.
+     */
     private void setDetails(){
         welcomeNameLabel.setText("Welcome, " + s.StudentFirstName);
           jLabel2.setText(s.StudentAttendance + "%");
@@ -75,7 +93,7 @@ public class MainPage extends javax.swing.JFrame {
           classPresentLabel.setText(Integer.toString(s.Classes_present));
           nameLabel.setText(s.StudentFirstName + " " + s.StudentLastName);
           idLabel.setText(Integer.toString(s.StudentID));
-          passwordLabel.setText(s.StudentPassword);
+          
           moduleLabel.setText(Integer.toString(s.ModuleID));
           numReferralsLabel.setText(Integer.toString(s.StudentReferral));
           changeColour(s.StudentAttendance);

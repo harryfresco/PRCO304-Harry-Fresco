@@ -27,10 +27,13 @@ import javax.swing.JOptionPane;
 public class studentAttendanceSystem {
 
     /**
-     * @param args the command line arguments
      */
     
     public static student s;
+
+    /**
+     *
+     */
     public static String url;
    
    
@@ -38,7 +41,14 @@ public class studentAttendanceSystem {
      *
      */
     public static Connection con;
-   public static void main(String[] args) throws ClassNotFoundException, SQLException{
+
+    /**
+     *
+     * @param args
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
         new login().setVisible(true); 
         connect();
     }
@@ -60,6 +70,7 @@ public class studentAttendanceSystem {
      * @param username The username field value
      * @param password The password field value
      * @return Boolean Returns true if correct credentials
+     * @throws java.sql.SQLException
      */
     public static boolean login(String username, String password) throws SQLException {
       
