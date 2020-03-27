@@ -5,7 +5,9 @@
  */
 package studentprogram;
 
+import Classes.lesson;
 import Classes.student;
+
 import guis.*;
 import java.sql.Connection;
 import java.sql.Date;
@@ -30,7 +32,8 @@ public class studentAttendanceSystem {
     
     public static student s;
     public static String url;
-
+   
+   
     /**
      *
      */
