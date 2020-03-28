@@ -33,6 +33,8 @@ import static JarFiles.getDatabase.*;
 import static JarFiles.addDatabase.*;
 import static JarFiles.referrals.*;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
 /**
@@ -278,6 +280,94 @@ private void addClassButton() {
     } catch (SQLException ex) {
         Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+private void loadingBarFunction(java.awt.event.KeyEvent evt){
+    loadingBar.setValue(0);
+        System.out.println("Started");
+        int counter = 0;
+  
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                if(updateAttendanceID(studentIDInput.getText()) == true){
+                        new javax.swing.Timer(1 , new ActionListener() {
+                            private int index = 0;
+                            private int maxIndex = 100;
+                            public void actionPerformed(ActionEvent e) {
+                                if (index < maxIndex) {
+                                    loadingBar.setValue(index);
+                                    index++;
+                                } else {
+                                    loadingBar.setValue(maxIndex);
+                                    ((javax.swing.Timer)e.getSource()).stop(); // stop the timer
+                                }
+                            }
+                        }).start();
+                        studentIDInput.setText("");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+}
+private void positiveReferral(){
+    // Initialise list
+        List<String> list3 = new ArrayList<>();
+        
+        // Fill list2 with selected students
+        list3 = studentList.getSelectedValuesList();
+        int selectedIndex = studentList.getSelectedIndex();
+        int[] arrayID = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID[i] = list.get(j).StudentID;
+                }
+            }
+        }
+       
+        // Send students to updateAttendance() function to change attendance value
+        try {
+            addReferral(arrayID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+private void negativeReferralFunction(){
+     // Initialise list
+        List<String> list3 = new ArrayList<>();
+        
+        // Fill list2 with selected students
+        list3 = studentList.getSelectedValuesList();
+        int selectedIndex = studentList.getSelectedIndex();
+        int[] arrayID = new int[30];
+
+        // Go through selected students, check against list of students, add their 
+        // studentID to a list, remove them from the jList
+        
+        for(int i = 0; i<list3.size(); i++){
+
+            for(int j= 0; j<list.size(); j++){
+
+                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
+                    arrayID[i] = list.get(j).StudentID;
+                }
+            }
+        }
+       
+        // Send students to updateAttendance() function to change attendance value
+        try {
+            negativeReferral(arrayID);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -910,64 +1000,13 @@ private void addClassButton() {
 
     private void referralButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referralButtonActionPerformed
         
-        // Initialise list
-        List<String> list3 = new ArrayList<>();
+        positiveReferral();
         
-        // Fill list2 with selected students
-        list3 = studentList.getSelectedValuesList();
-        int selectedIndex = studentList.getSelectedIndex();
-        int[] arrayID = new int[30];
-
-        // Go through selected students, check against list of students, add their 
-        // studentID to a list, remove them from the jList
-        
-        for(int i = 0; i<list3.size(); i++){
-
-            for(int j= 0; j<list.size(); j++){
-
-                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
-                    arrayID[i] = list.get(j).StudentID;
-                }
-            }
-        }
-       
-        // Send students to updateAttendance() function to change attendance value
-        try {
-            addReferral(arrayID);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_referralButtonActionPerformed
 
     private void negativeReferralButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativeReferralButtonActionPerformed
-        
-        // Initialise list
-        List<String> list3 = new ArrayList<>();
-        
-        // Fill list2 with selected students
-        list3 = studentList.getSelectedValuesList();
-        int selectedIndex = studentList.getSelectedIndex();
-        int[] arrayID = new int[30];
-
-        // Go through selected students, check against list of students, add their 
-        // studentID to a list, remove them from the jList
-        
-        for(int i = 0; i<list3.size(); i++){
-
-            for(int j= 0; j<list.size(); j++){
-
-                if(list3.get(i).equals(list.get(j).StudentFirstName + " " + list.get(j).StudentLastName)){                   
-                    arrayID[i] = list.get(j).StudentID;
-                }
-            }
-        }
+        negativeReferralFunction();
        
-        // Send students to updateAttendance() function to change attendance value
-        try {
-            negativeReferral(arrayID);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_negativeReferralButtonActionPerformed
 
     private void studentIDRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentIDRadioActionPerformed
@@ -984,23 +1023,8 @@ private void addClassButton() {
     }//GEN-LAST:event_studentIDInputMouseClicked
 
     private void studentIDInputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDInputKeyPressed
-        loadingBar.setValue(0);
-        System.out.println("Started");
+        loadingBarFunction(evt);
         
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            loadingBar.setValue(10);
-            loadingBar.repaint();
-            try {
-                if(updateAttendanceID(studentIDInput.getText()) == true){
-                        loadingBar.setValue(100);
-                        loadingBar.repaint();
-                        studentIDInput.setText("");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }
     }//GEN-LAST:event_studentIDInputKeyPressed
      
     /**
