@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static JarFiles.getDatabase.*;
+import java.sql.ResultSet;
 
 
 /**
@@ -78,6 +79,61 @@ public class updateAttendance {
                 pst.setInt(2, list.get(i).StudentID);
                 pst.executeUpdate();
             }   
+    }
+    
+    public static boolean updateAttendanceID(String inputID) throws SQLException{
+        ResultSet rs = null;
+        student sID = null;
+         // Adds 1 to the Number of Classes and Number of Classes present
+            String sql = "SELECT * FROM dbo.student_table WHERE "
+                    + "dbo.student_table.StudentID = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+                pst.setInt(1, Integer.valueOf(inputID));
+                rs = pst.executeQuery();
+                
+               while(rs.next()){ 
+             sID = new student(rs.getInt("StudentID"),
+                        rs.getInt("StudentAttendance"), rs.getInt("StudentNumOfClasses"),
+                        rs.getInt("classes_present"));
+               }
+             // Adds 1 to the Number of Classes and Number of Classes present
+            sql = "UPDATE dbo.student_table SET StudentNumOfClasses = StudentNumOfClasses + 1 "
+                    + ", classes_present = classes_present + 1 "
+                    + "where dbo.student_table.studentID = ?";
+        
+            pst = con.prepareStatement(sql);
+            
+
+                pst.setInt(1, Integer.valueOf(inputID));
+                pst.executeUpdate();
+            
+                 float attended;
+          float present;
+          float attendance;
+          
+          // Calculate attendance
+ 
+              present = (float)sID.Classes_present;
+              
+              attended = (float)sID.StudentNumOfClasses;
+  
+              attendance = (present / attended) * 100;
+              sID.StudentAttendance = (int)attendance;   
+          
+          
+          // Update the attendance
+           sql = "UPDATE dbo.student_table SET StudentAttendance = ? "
+                    + "where dbo.student_table.studentID = ?";
+        
+            pst = con.prepareStatement(sql);
+            
+   
+                pst.setInt(1, sID.StudentAttendance);
+                pst.setInt(2, sID.StudentID);
+                pst.executeUpdate();
+                System.out.println("Done");
+            return true;
     }
     
      /**

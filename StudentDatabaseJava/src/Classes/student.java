@@ -110,6 +110,14 @@ public class student {
         ModuleID = moduleVar;
         Classes_present = 0;
     }
+
+    public student(int studentID, int studentAttendance, int studentNumOfClasses, int classes_present) {
+         StudentID = studentID;
+        StudentAttendance = studentAttendance;
+        StudentNumOfClasses = studentNumOfClasses;
+        Classes_present = classes_present;
+    }
+
     
     /**
      * Display Students, returns the student's first name
