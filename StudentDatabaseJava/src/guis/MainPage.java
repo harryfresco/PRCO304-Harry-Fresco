@@ -397,8 +397,6 @@ private void negativeReferralFunction(){
         referralButton = new javax.swing.JButton();
         negativeReferralButton = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        studentIDRadio = new javax.swing.JRadioButton();
-        rfidRadio = new javax.swing.JRadioButton();
         studentIDInput = new javax.swing.JTextField();
         loadingBar = new javax.swing.JProgressBar();
         jPanel4 = new javax.swing.JPanel();
@@ -501,16 +499,7 @@ private void negativeReferralFunction(){
             }
         });
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Sign-In via ID or Tag"));
-
-        studentIDRadio.setText("Student ID");
-        studentIDRadio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                studentIDRadioActionPerformed(evt);
-            }
-        });
-
-        rfidRadio.setText("RFID Tag");
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Sign-In via ID"));
 
         studentIDInput.setForeground(new java.awt.Color(102, 102, 102));
         studentIDInput.setText("Click here to start");
@@ -534,30 +523,21 @@ private void negativeReferralFunction(){
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentIDInput)
-                    .addComponent(loadingBar, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentIDRadio)
-                    .addComponent(rfidRadio))
-                .addGap(31, 31, 31))
+                    .addComponent(studentIDInput, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(loadingBar, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(studentIDRadio)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rfidRadio)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(studentIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loadingBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loadingBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -587,7 +567,6 @@ private void negativeReferralFunction(){
                                 .addComponent(referralLabel)))
                         .addContainerGap(147, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(referralButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(negativeReferralButton, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -595,8 +574,8 @@ private void negativeReferralFunction(){
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -626,8 +605,8 @@ private void negativeReferralFunction(){
                     .addComponent(signInButton)
                     .addComponent(absentButton))
                 .addGap(18, 18, 18)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Register", jPanel3);
@@ -752,7 +731,7 @@ private void negativeReferralFunction(){
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstLabel)
                     .addComponent(lastLabel))
-                .addContainerGap(274, Short.MAX_VALUE))
+                .addContainerGap(216, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Search Student", jPanel1);
@@ -839,7 +818,7 @@ private void negativeReferralFunction(){
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Add Student", jPanel2);
@@ -895,7 +874,7 @@ private void negativeReferralFunction(){
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addComponent(addClassButton)
                 .addContainerGap())
         );
@@ -910,15 +889,15 @@ private void negativeReferralFunction(){
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(225, 225, 225)
+                .addGap(227, 227, 227)
                 .addComponent(signOutButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(signOutButton)
                 .addContainerGap())
         );
@@ -1008,10 +987,6 @@ private void negativeReferralFunction(){
         negativeReferralFunction();
        
     }//GEN-LAST:event_negativeReferralButtonActionPerformed
-
-    private void studentIDRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentIDRadioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_studentIDRadioActionPerformed
 
     private void studentIDInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentIDInputActionPerformed
         
@@ -1115,14 +1090,12 @@ private void negativeReferralFunction(){
     private javax.swing.JTextField password;
     private javax.swing.JButton referralButton;
     private javax.swing.JLabel referralLabel;
-    private javax.swing.JRadioButton rfidRadio;
     private javax.swing.JButton searchStudent;
     private javax.swing.JButton signInButton;
     private javax.swing.JButton signOutButton;
     private javax.swing.JLabel studentIDIndvLabel;
     private javax.swing.JTextField studentIDInput;
     private javax.swing.JLabel studentIDLabel;
-    private javax.swing.JRadioButton studentIDRadio;
     private javax.swing.JList<String> studentList;
     // End of variables declaration//GEN-END:variables
 }
