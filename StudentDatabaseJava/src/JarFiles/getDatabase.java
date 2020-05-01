@@ -121,7 +121,18 @@ public class getDatabase {
         tempAtt = tempAtt / i;
         return tempAtt;
     }
-         
+        
+    public static int getReferral() throws SQLException {
+        List<student> list = new ArrayList<>();
+        list = getStudents();
+        int i = 0;
+        int tempRef = 0;
+        for (i=0; i<list.size(); i++){
+            tempRef += list.get(i).StudentReferral;
+        }
+        tempRef = tempRef / i;
+        return tempRef;
+    }
   
    
 
