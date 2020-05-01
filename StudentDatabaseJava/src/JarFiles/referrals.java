@@ -31,7 +31,7 @@ public class referrals {
      * @param arrayID
      * @throws SQLException
      */
-    public static void addReferral(int arrayID[]) throws SQLException{
+    public static boolean addReferral(int arrayID[]) throws SQLException{
             // Adds 1 to the Number of Classes and Number of Classes present
             String sql = "UPDATE dbo.student_table SET StudentReferral = StudentReferral + 1 "
                     + "where dbo.student_table.studentID = ?";
@@ -43,6 +43,7 @@ public class referrals {
                 pst.setString(1, String.valueOf(arrayID[i]));
                 pst.executeUpdate();
             }
+            return true;
     }
     
     /**
@@ -50,7 +51,7 @@ public class referrals {
      * @param arrayID
      * @throws SQLException
      */
-    public static void negativeReferral(int arrayID[]) throws SQLException{
+    public static boolean negativeReferral(int arrayID[]) throws SQLException{
             // Adds 1 to the Number of Classes and Number of Classes present
             String sql = "UPDATE dbo.student_table SET StudentReferral = StudentReferral - 1 "
                     + "where dbo.student_table.studentID = ?";
@@ -62,5 +63,6 @@ public class referrals {
                 pst.setString(1, String.valueOf(arrayID[i]));
                 pst.executeUpdate();
             }
+            return true;
     }
 }

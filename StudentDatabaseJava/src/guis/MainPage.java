@@ -335,7 +335,7 @@ private void positiveReferral(){
         // Send students to updateAttendance() function to change attendance value
         try {
             if(addReferral(arrayID) == true){
-                JOptionPane.showMessageDialog(null, "Class Added successfully");
+                JOptionPane.showMessageDialog(null, "Positive referral Added successfully");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
@@ -367,7 +367,7 @@ private void negativeReferralFunction(){
         // Send students to updateAttendance() function to change attendance value
         try {
             if(negativeReferral(arrayID) ==true){
-                JOptionPane.showMessageDialog(null, "Class Added successfully");
+                JOptionPane.showMessageDialog(null, "Negative referral Added successfully");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
