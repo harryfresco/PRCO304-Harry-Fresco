@@ -25,11 +25,12 @@ import static studentprogram.studentAttendanceSystem.*;
 public class MainPage extends javax.swing.JFrame {
    // Initialise new list to hold all lessons that teacher teaches
     List<lesson> list = new ArrayList<>();
+     boolean show = false;
     /** Creates new form MainPage */
     public MainPage() throws SQLException {
         initComponents();
           setDetails();
-
+           
            DefaultListModel classListModel = new DefaultListModel();
         
         // Use function 'getClasses' to fill the list with classes
@@ -93,11 +94,19 @@ public class MainPage extends javax.swing.JFrame {
           classPresentLabel.setText(Integer.toString(s.Classes_present));
           nameLabel.setText(s.StudentFirstName + " " + s.StudentLastName);
           idLabel.setText(Integer.toString(s.StudentID));
-          
+          passwordLabel.setText("*********");
           moduleLabel.setText(Integer.toString(s.ModuleID));
           numReferralsLabel.setText(Integer.toString(s.StudentReferral));
           changeColour(s.StudentAttendance);
           changeColourReferral(s.StudentReferral);
+    }
+    
+    private void viewPassword(){
+        passwordLabel.setText(s.StudentPassword);
+    }
+    
+    private void hidePassword(){
+        passwordLabel.setText("*********");
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -133,6 +142,7 @@ public class MainPage extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         moduleLabel = new javax.swing.JLabel();
+        viewPassword = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -251,6 +261,13 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel10.setText("Module Enrolled: ");
 
+        viewPassword.setText("View Password");
+        viewPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -259,20 +276,23 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(moduleLabel)
+                        .addContainerGap(285, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel8)
                             .addComponent(jLabel9))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordLabel)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(passwordLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(viewPassword))
                             .addComponent(nameLabel)
-                            .addComponent(idLabel)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(moduleLabel)))
-                .addContainerGap(285, Short.MAX_VALUE))
+                            .addComponent(idLabel)))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +308,8 @@ public class MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(passwordLabel))
+                    .addComponent(passwordLabel)
+                    .addComponent(viewPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(moduleLabel)
@@ -310,7 +331,7 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Details", jPanel3);
@@ -350,6 +371,21 @@ public class MainPage extends javax.swing.JFrame {
 
               s = null;
     }//GEN-LAST:event_signOutButtonActionPerformed
+
+    private void viewPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPasswordActionPerformed
+        
+        if (show == false){   
+            viewPassword();
+            viewPassword.setText("Hide Password");
+            show = true;
+        }
+        else {
+            hidePassword();
+            viewPassword.setText("View Password");
+            show = false;
+        }
+        
+    }//GEN-LAST:event_viewPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,6 +455,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel numReferralsLabel;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JButton signOutButton;
+    private javax.swing.JButton viewPassword;
     private javax.swing.JLabel welcomeNameLabel;
     // End of variables declaration//GEN-END:variables
 
